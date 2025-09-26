@@ -22,13 +22,46 @@ jobs:
           npm -v || true
           echo "Branch: $GITHUB_REF"
 
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.x
+          cache: 'npm'
+
+      - name: Install dependencies (with retries)
+        run: |
+          npm config set prefer-online true
+          npm config set strict-ssl false
+          for i in 1 2 3; do
+            echo "npm ci attempt $i"
+            npm ci --no-audit --no-fund && break || sleep 5
+          done
+          if [ $? -ne 0 ]; then
+            echo "Falling back to npm install"
+            npm install --no-audit --no-fund --legacy-peer-deps
+          fi
+
+      - name: Build
+        run: |
+          npm run build
+
+      - name: Zip artifact
+        run: |
+          zip -r build.zip .next next.config.* package.json package-lock.json public app components lib models hooks types -x "**/node_modules/**"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: next-build
+          path: build.zip
+
       # Deploy source so App Service (Oryx) can build it using SCM_DO_BUILD_DURING_DEPLOYMENT
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: .
+          package: build.zip
 
       - name: Warm up app
         run: |
