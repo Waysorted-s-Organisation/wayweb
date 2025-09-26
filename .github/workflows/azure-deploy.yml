@@ -165,6 +165,7 @@ jobs:
         run: |
           echo "Warming https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net"
           curl -I https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net || true
+          echo "Warmup completed"
 
       - name: Post-deploy health check
         run: |
