@@ -56,17 +56,22 @@ jobs:
 
       - name: Install dependencies (clean, retry)
         run: |
+          set -euo pipefail
           npm config set fund false
           npm config set audit false
           npm config set prefer-online true
           npm cache clean --force || true
-          n=0
-          until [ "$n" -ge 3 ]; do
-            npm ci --no-audit --no-fund && break
-            n=$((n+1))
-            echo "npm ci failed ($n/3). Retrying in 10s..." >&2
-            sleep 10
-          done
+          if [ -f package-lock.json ]; then
+            echo "Found package-lock.json -> npm ci"
+            npm ci --no-audit --no-fund
+          else
+            echo "No package-lock.json found -> npm install (will generate one)"
+            npm install --no-audit --no-fund
+          fi
+          # Verify next installed
+          if [ ! -f node_modules/next/package.json ]; then
+            echo "::error::next dependency missing after install"; ls -1 node_modules | head; exit 1;
+          fi
         env:
           CI: true
 
@@ -115,7 +120,8 @@ jobs:
           path: deploy.zip
 
       - name: Deploy to Azure WebApp (Zip Deploy)
-        uses: azure/webapps-deploy@v3
+        # Pinned to commit SHA of v3 tag (annotated tag object points to this commit) for supply-chain security
+        uses: azure/webapps-deploy@657f0700ea5214d56a0400d8ac5e8023c963d25d
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           package: deploy.zip
