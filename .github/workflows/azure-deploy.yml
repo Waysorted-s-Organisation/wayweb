@@ -15,7 +15,7 @@ env:
   # Toggle to use standalone output optimization once next.config.ts sets output: 'standalone'
   STANDALONE: 'true'
   # Set to 'true' to enforce publish profile site name validation. Set to 'false' temporarily if rotating profile.
-  STRICT_PUBLISH_PROFILE_VALIDATION: 'true'
+  STRICT_PUBLISH_PROFILE_VALIDATION: 'false'
 
 jobs:
   build-and-deploy:
