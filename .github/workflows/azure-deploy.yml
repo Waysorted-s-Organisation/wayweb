@@ -70,22 +70,29 @@ jobs:
             attempt=$((attempt+1))
             echo "\n=== Dependency install attempt $attempt/$max_attempts ==="
             echo "Cleaning npm cache (best-effort)"; npm cache clean --force || true
+            install_status=1
             if [ -f package-lock.json ]; then
               echo "Found package-lock.json -> npm ci"
               if npm ci --no-audit --no-fund --include=dev; then
-                break
+                install_status=0
+              else
+                install_status=$?
               fi
             else
               echo "No package-lock.json -> npm install (will generate one)"
               if npm install --no-audit --no-fund --include=dev; then
-                break
+                install_status=0
+              else
+                install_status=$?
               fi
             fi
-            status=$?
-            if [ $attempt -ge $max_attempts ]; then
-              echo "::error::npm install failed after $attempt attempts (status $status)"; exit $status
+            if [ ${install_status} -eq 0 ]; then
+              break
             fi
-            echo "Install failed (exit $status). Inspecting logs for integrity/network issues..."
+            if [ $attempt -ge $max_attempts ]; then
+              echo "::error::npm install failed after $attempt attempts (status ${install_status})"; exit ${install_status}
+            fi
+            echo "Install failed (exit ${install_status}). Inspecting logs for integrity/network issues..."
             # Common remediation for EINTEGRITY is to purge tarballs & retry
             echo "Sleeping 3s before retry..."; sleep 3
           done
