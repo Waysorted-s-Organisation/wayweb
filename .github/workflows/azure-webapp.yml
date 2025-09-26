@@ -1,10 +1,11 @@
 name: Deploy to Azure Web App
 
 on:
-  push:
-    branches:
-      - deployment
   workflow_dispatch:
+    inputs:
+      note:
+        description: 'Manual Oryx source deployment trigger'
+        required: false
 
 env:
   AZURE_WEBAPP_NAME: wayweb-linux-1a97

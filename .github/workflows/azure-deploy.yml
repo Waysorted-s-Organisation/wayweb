@@ -1,4 +1,4 @@
-name: Deploy Next.js to Azure Web App
+name: Deploy Next.js (Linux) to Azure Web App
 
 on:
   push:
@@ -9,10 +9,11 @@ permissions:
   contents: read
 
 env:
-  AZURE_WEBAPP_NAME: wayweb-app-363e31
+  AZURE_WEBAPP_NAME: wayweb-linux-1a97
   NODE_VERSION: '20.x'
-  # Build output directory (Next.js standalone output for App Service)
   BUILD_DIR: .next
+  # Toggle to use standalone output optimization once next.config.ts sets output: 'standalone'
+  STANDALONE: 'false'
 
 jobs:
   build-and-deploy:
@@ -29,6 +30,12 @@ jobs:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'npm'
 
+      - name: Show runtime versions
+        run: |
+          node -v
+          npm -v
+          echo "Registry: $(npm config get registry)"
+
       - name: Create env file from secrets
         run: |
           cat > .env.production <<'EOF'
@@ -43,9 +50,19 @@ jobs:
           NODE_ENV=production
           EOF
 
-      - name: Install dependencies
+      - name: Install dependencies (clean, retry)
         run: |
-          npm ci --no-audit --no-fund
+          npm config set fund false
+          npm config set audit false
+          npm config set prefer-online true
+          npm cache clean --force || true
+          n=0
+          until [ "$n" -ge 3 ]; do
+            npm ci --no-audit --no-fund && break
+            n=$((n+1))
+            echo "npm ci failed ($n/3). Retrying in 10s..." >&2
+            sleep 10
+          done
         env:
           CI: true
 
@@ -53,11 +70,22 @@ jobs:
         run: |
           npx next telemetry disable || true
           npm run build
+        env:
+          NODE_ENV: production
 
-      - name: Zip artifact
+      - name: Prepare deploy artifact
         run: |
-          zip -r deploy.zip . -x "**/.git*" "**/node_modules/.cache/**" "tmp-npm-cache/**"
-        # We keep node_modules for faster startup since we already built
+          if [ "$STANDALONE" = "true" ]; then
+            mkdir -p deploy
+            cp -R .next/standalone/* deploy/
+            cp -R .next/static deploy/.next/static
+            cp -R public deploy/public
+            cp package.json deploy/package.json
+            (cd deploy && zip -r ../deploy.zip .)
+          else
+            zip -r deploy.zip . -x "**/.git*" "**/node_modules/.cache/**" "tmp-npm-cache/**" ".next/cache/**"
+          fi
+        # If standalone, we ship only the minimal runtime tree; else ship full repo incl node_modules
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -65,7 +93,7 @@ jobs:
           name: site-package
           path: deploy.zip
 
-      - name: Deploy to Azure WebApp
+      - name: Deploy to Azure WebApp (Zip Deploy)
         uses: azure/webapps-deploy@v3
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
@@ -74,4 +102,5 @@ jobs:
 
       - name: Post-deploy warmup
         run: |
+          echo "Warming https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net"
           curl -I https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net || true
