@@ -57,18 +57,40 @@ jobs:
       - name: Install dependencies (clean, retry)
         run: |
           set -euo pipefail
+          echo "Configuring npm for robust retries"
           npm config set fund false
           npm config set audit false
           npm config set prefer-online true
-          npm cache clean --force || true
-          if [ -f package-lock.json ]; then
-            echo "Found package-lock.json -> npm ci"
-            npm ci --no-audit --no-fund
-          else
-            echo "No package-lock.json found -> npm install (will generate one)"
-            npm install --no-audit --no-fund
-          fi
-          # Verify next installed
+          npm config set fetch-retry-maxtimeout 20000
+          npm config set fetch-retry-mintimeout 5000
+          npm config set fetch-retries 5
+          attempt=0
+          max_attempts=4
+          while true; do
+            attempt=$((attempt+1))
+            echo "\n=== Dependency install attempt $attempt/$max_attempts ==="
+            echo "Cleaning npm cache (best-effort)"; npm cache clean --force || true
+            if [ -f package-lock.json ]; then
+              echo "Found package-lock.json -> npm ci"
+              if npm ci --no-audit --no-fund --include=dev; then
+                break
+              fi
+            else
+              echo "No package-lock.json -> npm install (will generate one)"
+              if npm install --no-audit --no-fund --include=dev; then
+                break
+              fi
+            fi
+            status=$?
+            if [ $attempt -ge $max_attempts ]; then
+              echo "::error::npm install failed after $attempt attempts (status $status)"; exit $status
+            fi
+            echo "Install failed (exit $status). Inspecting logs for integrity/network issues..."
+            # Common remediation for EINTEGRITY is to purge tarballs & retry
+            echo "Sleeping 3s before retry..."; sleep 3
+          done
+          echo "Dependency install succeeded on attempt $attempt"
+          # Verify critical dependency 'next'
           if [ ! -f node_modules/next/package.json ]; then
             echo "::error::next dependency missing after install"; ls -1 node_modules | head; exit 1;
           fi
