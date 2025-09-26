@@ -14,6 +14,8 @@ env:
   BUILD_DIR: .next
   # Toggle to use standalone output optimization once next.config.ts sets output: 'standalone'
   STANDALONE: 'true'
+  # Set to 'true' to enforce publish profile site name validation. Set to 'false' temporarily if rotating profile.
+  STRICT_PUBLISH_PROFILE_VALIDATION: 'true'
 
 jobs:
   build-and-deploy:
@@ -140,9 +142,10 @@ jobs:
           unzip -l deploy.zip | grep -q "server.js" && echo "server.js found" || { echo "::error::server.js missing from deploy artifact"; exit 1; }
 
       - name: Validate publish profile target site
+        if: env.STRICT_PUBLISH_PROFILE_VALIDATION == 'true'
         run: |
-          echo "Validating publish profile references wayweb-linux-1a97";
-          echo "${{ secrets.AZURE_PUBLISH_PROFILE }}" | grep -q "wayweb-linux-1a97" && echo "Publish profile OK" || { echo "::error::Publish profile does not reference wayweb-linux-1a97. Update AZURE_PUBLISH_PROFILE secret with Linux profile."; exit 1; }
+          echo "Validating publish profile references ${{ env.AZURE_WEBAPP_NAME }}";
+          echo "${{ secrets.AZURE_PUBLISH_PROFILE }}" | grep -q "${{ env.AZURE_WEBAPP_NAME }}" && echo "Publish profile OK" || { echo "::error::Publish profile does not reference ${{ env.AZURE_WEBAPP_NAME }}. Update AZURE_PUBLISH_PROFILE secret with correct Linux publish profile or set STRICT_PUBLISH_PROFILE_VALIDATION='false' temporarily."; exit 1; }
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
