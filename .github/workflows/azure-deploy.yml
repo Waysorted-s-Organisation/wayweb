@@ -84,13 +84,13 @@ jobs:
             cp -R .next/standalone/* deploy/
             cp -R .next/static deploy/.next/static
             cp -R public deploy/public
-            # Ensure env file is present for runtime
-            if [ -f .env.production ]; then cp .env.production deploy/.env.production; fi
-            # If using standalone, prefer node server.js start for minimal tree (adjust package.json if needed)
-            if grep -q '"start"' deploy/package.json 2>/dev/null; then
-              sed -i.bak 's/"start"[^"]*"[^"]*"/"start": "node server.js"/' deploy/package.json || true
-            fi
+            # Copy package.json first, then adjust start script
             cp package.json deploy/package.json
+            if grep -q '"start"' deploy/package.json 2>/dev/null; then
+              sed -i.bak 's/"start"[^\n]*/"start": "node server.js",/' deploy/package.json || true
+            fi
+            # Ensure env file is present (App Service won't auto-load it; prefer App Settings for real secrets)
+            if [ -f .env.production ]; then cp .env.production deploy/.env.production; fi
             (cd deploy && zip -r ../deploy.zip .)
           else
             zip -r deploy.zip . -x "**/.git*" "**/node_modules/.cache/**" "tmp-npm-cache/**" ".next/cache/**"
@@ -100,6 +100,13 @@ jobs:
       - name: List archive contents (debug)
         run: |
           unzip -l deploy.zip | head -n 40 || true
+          echo "Checking for server.js in archive";
+          unzip -l deploy.zip | grep -q "server.js" && echo "server.js found" || { echo "::error::server.js missing from deploy artifact"; exit 1; }
+
+      - name: Validate publish profile target site
+        run: |
+          echo "Validating publish profile references wayweb-linux-1a97";
+          echo "${{ secrets.AZURE_PUBLISH_PROFILE }}" | grep -q "wayweb-linux-1a97" && echo "Publish profile OK" || { echo "::error::Publish profile does not reference wayweb-linux-1a97. Update AZURE_PUBLISH_PROFILE secret with Linux profile."; exit 1; }
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
