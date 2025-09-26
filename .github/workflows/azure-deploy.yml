@@ -116,6 +116,8 @@ jobs:
           if [ "$STANDALONE" = "true" ]; then
             mkdir -p deploy
             cp -R .next/standalone/* deploy/
+            # Ensure nested .next directory exists before copying static assets
+            mkdir -p deploy/.next
             cp -R .next/static deploy/.next/static
             cp -R public deploy/public
             # Copy package.json first, then adjust start script
