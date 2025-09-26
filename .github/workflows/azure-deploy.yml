@@ -24,6 +24,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Remove Azure placeholder if present
+        run: |
+          rm -f hostingstart.html || true
+
       - name: Use Node.js ${{ env.NODE_VERSION }}
         uses: actions/setup-node@v4
         with:
@@ -80,12 +84,22 @@ jobs:
             cp -R .next/standalone/* deploy/
             cp -R .next/static deploy/.next/static
             cp -R public deploy/public
+            # Ensure env file is present for runtime
+            if [ -f .env.production ]; then cp .env.production deploy/.env.production; fi
+            # If using standalone, prefer node server.js start for minimal tree (adjust package.json if needed)
+            if grep -q '"start"' deploy/package.json 2>/dev/null; then
+              sed -i.bak 's/"start"[^"]*"[^"]*"/"start": "node server.js"/' deploy/package.json || true
+            fi
             cp package.json deploy/package.json
             (cd deploy && zip -r ../deploy.zip .)
           else
             zip -r deploy.zip . -x "**/.git*" "**/node_modules/.cache/**" "tmp-npm-cache/**" ".next/cache/**"
           fi
         # If standalone, we ship only the minimal runtime tree; else ship full repo incl node_modules
+
+      - name: List archive contents (debug)
+        run: |
+          unzip -l deploy.zip | head -n 40 || true
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
