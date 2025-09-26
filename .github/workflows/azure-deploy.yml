@@ -13,7 +13,7 @@ env:
   NODE_VERSION: '20.x'
   BUILD_DIR: .next
   # Toggle to use standalone output optimization once next.config.ts sets output: 'standalone'
-  STANDALONE: 'false'
+  STANDALONE: 'true'
 
 jobs:
   build-and-deploy:
