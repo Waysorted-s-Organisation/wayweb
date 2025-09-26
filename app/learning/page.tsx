@@ -1,6 +1,7 @@
 "use client";
 import { useState } from "react";
 import ToolsData from "./data";
+import type { Tool } from "./types";
 
 import Breadcrumb from "./components/BreadCrumb";
 import HeadingSection from "./components/HeadingSection";
@@ -16,9 +17,9 @@ export default function LearnPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const { showBanner, setShowBanner } = useBanner();
 
-  const filteredTools = ToolsData.filter((tool) =>
+  const filteredTools: Tool[] = ToolsData.filter((tool) =>
     tool.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  ) as Tool[]; // assert to Tool[] since source literal values conform to Tool interface
 
   return (
     <div className="min-h-screen">

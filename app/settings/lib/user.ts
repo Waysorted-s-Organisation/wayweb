@@ -13,6 +13,9 @@ export type User = {
 };
 
 export async function getCurrentUser(): Promise<User | null> {
+  if (!process.env.MONGODB_URI) {
+    return null; // skip db lookup during build when env not set
+  }
   await dbConnect();
 
   // Get session cookie

@@ -19,15 +19,16 @@ type TabKey =
 export default async function ProfilePage({
   searchParams,
 }: {
-  searchParams?: { tab?: string };
+  searchParams?: Promise<{ tab?: string }>;
 }) {
   const user = await getCurrentUser();
-  const tab = await (searchParams?.tab as TabKey) || "general";
+  const resolved = searchParams ? await searchParams : {};
+  const tab = (resolved.tab as TabKey) || "general";
 
   function renderTab() {
     switch (tab) {
       case "general":
-        return <GeneralTab user={user} />;
+        return <GeneralTab />;
       case "credits":
         return <CreditsUsageTab />;
       case "subscription":
@@ -39,14 +40,14 @@ export default async function ProfilePage({
       case "beta":
         return <BetaFeaturesTab />;
       default:
-        return <GeneralTab user={user} />;
+        return <GeneralTab />;
     }
   }
 
   return (
     <div className="min-h-screen w-full">
       {/* Example: If you still have a TopBanner, import & render it here */}
-      <TopBanner earlyAccess={user.earlyAccess} />
+  {user && <TopBanner earlyAccess={user.earlyAccess} />}
 
       <div className="mx-auto flex max-w-full gap-0">
         <Sidebar />
