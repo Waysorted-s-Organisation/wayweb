@@ -165,3 +165,21 @@ jobs:
         run: |
           echo "Warming https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net"
           curl -I https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net || true
+
+      - name: Post-deploy health check
+        run: |
+          set -e
+          BASE="https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net"
+          echo "Polling health endpoint $BASE/api/health"
+          attempts=0
+          max=20
+          sleep_seconds=5
+          while true; do
+            attempts=$((attempts+1))
+            status=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/api/health" || echo "000")
+            if [ "$status" = "200" ]; then
+              echo "Health check passed (HTTP 200) on attempt $attempts"; break; fi
+            if [ $attempts -ge $max ]; then
+              echo "::error::Health check failed after $attempts attempts (last status $status)"; exit 1; fi
+            echo "Attempt $attempts: status $status. Retrying in ${sleep_seconds}s..."; sleep $sleep_seconds
+          done

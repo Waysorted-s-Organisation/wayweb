@@ -5,6 +5,8 @@
 /.pnp
 .pnp.*
 .yarn/*
+.PublishSettings
+*.PublishSettings
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
