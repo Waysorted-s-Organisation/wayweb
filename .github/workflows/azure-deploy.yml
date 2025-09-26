@@ -1,0 +1,77 @@
+name: Deploy Next.js to Azure Web App
+
+on:
+  push:
+    branches: [ deployment ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  AZURE_WEBAPP_NAME: wayweb-app-363e31
+  NODE_VERSION: '20.x'
+  # Build output directory (Next.js standalone output for App Service)
+  BUILD_DIR: .next
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Create env file from secrets
+        run: |
+          cat > .env.production <<'EOF'
+          MONGODB_URI=${{ secrets.MONGODB_URI }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
+          ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}
+          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+          OAUTH_REDIRECT_URI=${{ secrets.OAUTH_REDIRECT_URI }}
+          SESSION_SECRET=${{ secrets.SESSION_SECRET }}
+          NODE_ENV=production
+          EOF
+
+      - name: Install dependencies
+        run: |
+          npm ci --no-audit --no-fund
+        env:
+          CI: true
+
+      - name: Build
+        run: |
+          npx next telemetry disable || true
+          npm run build
+
+      - name: Zip artifact
+        run: |
+          zip -r deploy.zip . -x "**/.git*" "**/node_modules/.cache/**" "tmp-npm-cache/**"
+        # We keep node_modules for faster startup since we already built
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-package
+          path: deploy.zip
+
+      - name: Deploy to Azure WebApp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: deploy.zip
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+
+      - name: Post-deploy warmup
+        run: |
+          curl -I https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net || true
