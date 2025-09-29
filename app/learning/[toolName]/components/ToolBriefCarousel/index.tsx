@@ -22,6 +22,7 @@ export default function ToolBriefCarousel({
 
   // Total items = all ToolBrief slides + 1 feedback slide
   const totalItems = slides.length + 1
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const lastIndex = totalItems - 1
 
   // Track scroll to update index
@@ -55,7 +56,7 @@ export default function ToolBriefCarousel({
           ref={scrollerRef}
             /* Added aria-label so assistive tech knows how many total "slides" including feedback */
           aria-label={`Carousel with ${totalItems} items including one feedback form at the end.`}
-          className="no-scrollbar flex snap-x snap-mandatory gap-6 overflow-x-auto px-4 md:px-0 scroll-px-4 md:scroll-px-0"
+          className="no-scrollbar-1 flex snap-x snap-mandatory gap-6 overflow-x-auto px-4 md:px-0 scroll-px-4 md:scroll-px-0"
         >
           {slides.map((props, i) => (
             <div

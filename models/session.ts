@@ -1,6 +1,8 @@
-import { Schema, model, models, Types } from "mongoose";
+import { Schema, model, models, Types, Model } from "mongoose";
+// Import User model to ensure it's registered
+import "./user";
 
-interface ISession {
+export interface ISession {
   sessionId: string;
   user?: Types.ObjectId;
   accessToken?: string;
@@ -11,6 +13,8 @@ interface ISession {
   completedAt?: Date;
   createdAt?: Date;
 }
+
+export type SessionModel = Model<ISession>;
 
 const SessionSchema = new Schema<ISession>(
   {
@@ -27,5 +31,9 @@ const SessionSchema = new Schema<ISession>(
   { versionKey: false }
 );
 
-const Session = models.Session || model<ISession>("Session", SessionSchema);
+SessionSchema.index({ sessionId: 1 }, { unique: true });
+
+const Session =
+  (models.Session as SessionModel) || model<ISession, SessionModel>("Session", SessionSchema);
+
 export default Session;

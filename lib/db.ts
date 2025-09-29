@@ -1,11 +1,11 @@
 import mongoose, { Mongoose } from "mongoose";
 
 const { MONGODB_URI } = process.env;
-// Avoid throwing during build when env vars may be absent; defer error until actual connection attempt
-// This allows Next.js static/build time to proceed without a runtime-only secret.
+if (!MONGODB_URI) {
+  throw new Error("MONGODB_URI not set");
+}
 
 declare global {
-  // eslint-disable-next-line no-var
   var _mongooseConn: { conn: Mongoose | null; promise: Promise<Mongoose> | null } | undefined;
 }
 
