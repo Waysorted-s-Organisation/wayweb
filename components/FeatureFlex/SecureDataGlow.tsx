@@ -5,6 +5,7 @@ export default function SecureDataGlow() {
       <span className="glow-ring r2" />
       <span className="glow-ring r3" />
       <span className="glow-ring r4" />
+<<<<<<< HEAD
       <svg width="55" height="55" className="glow-svg" viewBox="0 0 55 55" fill="none" xmlns="http://www.w3.org/2000/svg">
       <rect x="8.13599" y="10.168" width="39.6668" height="38.6497" fill="white"/>
       <path d="M0 12.2052C0 5.46445 5.46445 0 12.2052 0H42.7181C49.4589 0 54.9233 5.46445 54.9233 12.2052V42.7181C54.9233 49.4589 49.4589 54.9233 42.7181 54.9233H12.2052C5.46445 54.9233 0 49.4589 0 42.7181V12.2052Z" fill="#265BD1"/>
@@ -71,6 +72,12 @@ export default function SecureDataGlow() {
       </defs>
       </svg>
 
+=======
+      <svg className="glow-svg" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Secure Data">
+        <path d="M0 12C0 5.37258 5.37258 0 12 0H42C48.6274 0 54 5.37258 54 12V42C54 48.6274 48.6274 54 42 54H12C5.37258 54 0 48.6274 0 42V12Z" fill="#01A04E"/>
+        <path d="M36.6875 20L23.5625 33.125L17 26.5625" stroke="white" fill="none" strokeWidth="3.28125" strokeLinecap="round" strokeLinejoin="round"/>
+      </svg>
+>>>>>>> wayweb/main
     </div>
   );
 }

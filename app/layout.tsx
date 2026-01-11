@@ -2,11 +2,16 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Hanken_Grotesk } from "next/font/google";
 import { BannerProvider } from "@/context/BannerContext";
+<<<<<<< HEAD
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/next";
 import Script from "next/script";
 import SplashGate from "@/components/SplashGate";
 import Clarity from "@/components/Clarity";
+=======
+import EarlyAccessPopup from "@/components/EarlyAccessPopup";
+import SplashGate from "@/components/SplashGate";
+>>>>>>> wayweb/main
 
 const GA_TRACKING_ID = "G-KS8MVKMRYV";
 
@@ -127,6 +132,7 @@ export const metadata: Metadata = {
   },
 };
 
+<<<<<<< HEAD
 // JSON-LD Structured Data for Google Sitelinks and GEO/AEO
 const jsonLd = {
   "@context": "https://schema.org",
@@ -263,6 +269,8 @@ const jsonLd = {
   ],
 };
 
+=======
+>>>>>>> wayweb/main
 export default function RootLayout({
   children,
 }: {
@@ -270,6 +278,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+<<<<<<< HEAD
       <head>
         {/* Preconnect to external domains for faster loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -303,6 +312,15 @@ export default function RootLayout({
         </SplashGate>
         <SpeedInsights />
         <Analytics />
+=======
+      <body className={`${hanken.className} no-scrollbar`}>
+        <SplashGate minMs={4000} initialOnly>
+        <BannerProvider>
+          {children}
+          <EarlyAccessPopup />
+        </BannerProvider>
+        </SplashGate>
+>>>>>>> wayweb/main
       </body>
     </html>
   );

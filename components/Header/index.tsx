@@ -9,8 +9,12 @@ import LanguageDropdown from '../LanguageDropdown';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/hooks/useUser';
 import UserMenu from '@/components/UserMenu';
+<<<<<<< HEAD
 import products from "@/data/products.json"
 // import GlowingStarButton from '@/components/GlowStarButton';
+=======
+import GlowingStarButton from '@/components/GlowStarButton';
+>>>>>>> wayweb/main
 
 interface HeaderProps {
   showBanner: boolean;
@@ -51,6 +55,7 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
     }
   }
 
+<<<<<<< HEAD
   // Close menus on route change (back/forward)
   useEffect(() => {
     const closeAll = () => {
@@ -146,6 +151,8 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
   const logoSrc = isSecureSection ? '/icons/logo-white.svg' : '/images/logo.svg';
   const logoLanguage = isSecureSection ? '/icons/language-white.svg' : '/icons/world.svg';
 
+=======
+>>>>>>> wayweb/main
   return (
     <header
       ref={headerRef}
@@ -259,6 +266,7 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
               />
             </div>
 
+<<<<<<< HEAD
             <button
               className={`flex items-center pr-3 font-medium text-sm cursor-pointer ${textColor}`}
               onClick={() => router.push('/about-us')}
@@ -306,13 +314,21 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
 
             {/* <GlowingStarButton
               className={`hidden md:flex bg-secondary-db-100 shadow-glow font-medium text-sm md:text-base text-white px-4 md:px-5 py-2 rounded-lg items-center active:scale-95 transition-colors duration-100 cursor-pointer ${isSecureSection ? 'border border-secondary-db-80' : ''}`}
+=======
+            <GlowingStarButton
+              className="bg-secondary-db-100 shadow-glow font-medium text-base text-white px-5 py-2 rounded-lg flex items-center active:scale-95 transition-colors duration-100 cursor-pointer"
+>>>>>>> wayweb/main
               title="Get Early Access"
               aria-label="Get Early Access"
               onClick={() => router.push('/get-early-access')}
               disabled={!!user?.earlyAccess}
             >
               <span>Get Early Access</span>
+<<<<<<< HEAD
             </GlowingStarButton> */}
+=======
+            </GlowingStarButton>
+>>>>>>> wayweb/main
 
             {/* Auth buttons: desktop only */}
             {!loading && !user && (

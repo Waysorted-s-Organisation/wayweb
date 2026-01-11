@@ -31,6 +31,7 @@ function makeNonce() {
 type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   children?: React.ReactNode;
   className?: string;
+<<<<<<< HEAD
   starCount?: number;          // number of dots (kept name for compatibility)
   randomSeed?: string;
   rerollOnHover?: boolean;
@@ -40,6 +41,17 @@ type Props = React.ButtonHTMLAttributes<HTMLButtonElement> & {
   title?: string;
   "aria-label"?: string;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+=======
+  starCount?: number;          // number of stars (default 20)
+  randomSeed?: string;         // base seed; default "glow-stars-v2"
+  rerollOnHover?: boolean;     // new layout each hover (default false)
+  randomizeOnMount?: boolean;  // new layout each page load (default false)
+  delayJitter?: number;        // ±seconds random entrance delay jitter (default 0.12)
+  enterDurationSec?: number;   // entrance duration in seconds (default 0.45)
+  title?: string;              // Optional button title
+  "aria-label"?: string;       // Optional aria label
+  onClick?: React.MouseEventHandler<HTMLButtonElement>; // Optional click handler
+>>>>>>> wayweb/main
 };
 
 export default function GlowStarButton({
@@ -68,12 +80,17 @@ export default function GlowStarButton({
   const seedBase = randomizeOnMount && mountNonce ? `${randomSeed}-${mountNonce}` : randomSeed;
   const effectiveSeed = rerollOnHover ? `${seedBase}-${hoverKey}` : seedBase;
 
+<<<<<<< HEAD
   const dots = useMemo(() => {
+=======
+  const stars = useMemo(() => {
+>>>>>>> wayweb/main
     const minX = 8, maxX = 92;
     const minY = 18, maxY = 86;
     const deadLeft = 36, deadRight = 64;
     const deadTop = 44, deadBottom = 60;
 
+<<<<<<< HEAD
     const arr: {
       left: number;
       top: number;
@@ -86,13 +103,19 @@ export default function GlowStarButton({
       enterDelay: number;
       radius: number;
     }[] = [];
+=======
+    const arr = [];
+>>>>>>> wayweb/main
     for (let i = 0; i < starCount; i++) {
       const r = rngForIndex(effectiveSeed, i);
 
       let left = minX + r() * (maxX - minX);
       let top = minY + r() * (maxY - minY);
 
+<<<<<<< HEAD
       // Push away from center zone
+=======
+>>>>>>> wayweb/main
       if (left > deadLeft && left < deadRight && top > deadTop && top < deadBottom) {
         const pushDirX = r() < 0.5 ? -1 : 1;
         const pushDirY = r() < 0.5 ? -1 : 1;
@@ -102,6 +125,7 @@ export default function GlowStarButton({
         top = Math.min(maxY, Math.max(minY, top));
       }
 
+<<<<<<< HEAD
       const size = 5 + Math.round(r() * 5); // used for external width/height
       const scale = 0.85 + r() * 0.35;
       const dx = 2 + Math.round(r() * 3);
@@ -115,6 +139,20 @@ export default function GlowStarButton({
       const radius = 4; // You can vary: 8 + Math.round(r() * 4)
 
       arr.push({ left, top, size, scale, dx, dy, spin, durMs, enterDelay, radius });
+=======
+      const size = 5 + Math.round(r() * 5);
+      const scale = 0.85 + r() * 0.35;
+      const dx = 2 + Math.round(r() * 3);
+      const dy = 2 + Math.round(r() * 2);
+      const spin = 8 + Math.round(r() * 8);
+      const durMs = 1600 + Math.round(r() * 900);
+
+      const base = i * 0.035;
+      const jitter = (r() - 0.5) * 2 * delayJitter;
+      const enterDelay = Math.max(0, base + jitter);
+
+      arr.push({ left, top, size, scale, dx, dy, spin, durMs, enterDelay });
+>>>>>>> wayweb/main
     }
     return arr;
   }, [effectiveSeed, starCount, delayJitter]);
@@ -122,15 +160,22 @@ export default function GlowStarButton({
   return (
     <button
       type="submit"
+<<<<<<< HEAD
       className={`btn-glow text-white ${className}`}
       onMouseEnter={rerollOnHover ? () => setHoverKey(k => k + 1) : undefined}
       onTouchStart={rerollOnHover ? () => setHoverKey(k => k + 1) : undefined}
+=======
+      className={`btn-glow bg-secondary-db-100 text-white ${className}`}
+      onMouseEnter={rerollOnHover ? () => setHoverKey((k) => k + 1) : undefined}
+      onTouchStart={rerollOnHover ? () => setHoverKey((k) => k + 1) : undefined}
+>>>>>>> wayweb/main
       title={title}
       aria-label={ariaLabel}
       onClick={onClick}
       {...props}
     >
       <span className="btn-inner">{children}</span>
+<<<<<<< HEAD
       {dots.map((d, i) => (
         <svg
           key={i}
@@ -156,6 +201,36 @@ export default function GlowStarButton({
           >
             <circle cx="12" cy="12" r={d.radius} fill="currentColor" />
           </svg>
+=======
+      {stars.map((s, i) => (
+        <svg
+          key={i}
+          aria-hidden="true"
+          viewBox="0 0 24 24"
+          className="btn-star"
+          style={
+            {
+              "--top": `${s.top}%`,
+              "--left": `${s.left}%`,
+              "--size": `${s.size}px`,
+              "--scale": s.scale,
+              "--dx": `${s.dx}px`,
+              "--dy": `${s.dy}px`,
+              "--spin": `${s.spin}deg`,
+              "--dur": `${s.durMs}ms`,
+              "--enter-delay": `${s.enterDelay}s`,
+              "--delay": `${s.enterDelay}s`, // fallback for older CSS
+              "--enter-dur": `${enterDurationSec}s`,
+              "--rot": "0deg",
+            } as React.CSSProperties
+          }
+        >
+          <path
+            fill="currentColor"
+            d="M12 2.5l2.4 5.2 5.8.5-4.4 3.7 1.4 5.4L12 14.7 6.8 17.3l1.4-5.4-4.4-3.7 5.8-.5L12 2.5z"
+          />
+        </svg>
+>>>>>>> wayweb/main
       ))}
     </button>
   );

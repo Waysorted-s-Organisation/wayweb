@@ -1,7 +1,11 @@
 "use client";
 
 import React from "react";
+<<<<<<< HEAD
 import { motion } from "framer-motion";
+=======
+import GlowingStarButton from "@/components/GlowStarButton";
+>>>>>>> wayweb/main
 
 const JoinCommunity = () => {
   return (
@@ -19,6 +23,7 @@ const JoinCommunity = () => {
         and frustration-free workflows.
       </p>
 
+<<<<<<< HEAD
       {/* Animated Button */}
       {/* Switched from div to motion.div */}
       <motion.div
@@ -39,6 +44,15 @@ const JoinCommunity = () => {
       >
         Join Now !
       </motion.div>
+=======
+      {/* Button */}
+      <GlowingStarButton
+        className="mt-12 rounded-4xl text-white font-medium text-7xl 
+                   bg-secondary-db-100 join-shadow cursor-pointer"
+      >
+        Join Now !
+      </GlowingStarButton>
+>>>>>>> wayweb/main
     </section>
   );
 };

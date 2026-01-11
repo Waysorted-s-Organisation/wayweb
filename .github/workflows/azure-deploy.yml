@@ -1,0 +1,195 @@
+name: Deploy Next.js (Linux) to Azure Web App
+
+on:
+  push:
+    branches: [ deployment ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  AZURE_WEBAPP_NAME: wayweb-linux-1a97
+  NODE_VERSION: '20.x'
+  BUILD_DIR: .next
+  # Toggle to use standalone output optimization once next.config.ts sets output: 'standalone'
+  STANDALONE: 'true'
+  # Set to 'true' to enforce publish profile site name validation. Set to 'false' temporarily if rotating profile.
+  STRICT_PUBLISH_PROFILE_VALIDATION: 'false'
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Remove Azure placeholder if present
+        run: |
+          rm -f hostingstart.html || true
+
+      - name: Use Node.js ${{ env.NODE_VERSION }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Show runtime versions
+        run: |
+          node -v
+          npm -v
+          echo "Registry: $(npm config get registry)"
+
+      - name: Create env file from secrets
+        run: |
+          cat > .env.production <<'EOF'
+          MONGODB_URI=${{ secrets.MONGODB_URI }}
+          JWT_SECRET=${{ secrets.JWT_SECRET }}
+          NEXTAUTH_URL=${{ secrets.NEXTAUTH_URL }}
+          ALLOWED_ORIGINS=${{ secrets.ALLOWED_ORIGINS }}
+          GOOGLE_CLIENT_ID=${{ secrets.GOOGLE_CLIENT_ID }}
+          GOOGLE_CLIENT_SECRET=${{ secrets.GOOGLE_CLIENT_SECRET }}
+          OAUTH_REDIRECT_URI=${{ secrets.OAUTH_REDIRECT_URI }}
+          SESSION_SECRET=${{ secrets.SESSION_SECRET }}
+          NODE_ENV=production
+          EOF
+
+      - name: Install dependencies (clean, retry)
+        run: |
+          set -euo pipefail
+          echo "Configuring npm for robust retries"
+          npm config set fund false
+          npm config set audit false
+          npm config set prefer-online true
+          npm config set fetch-retry-maxtimeout 20000
+          npm config set fetch-retry-mintimeout 5000
+          npm config set fetch-retries 5
+          attempt=0
+          max_attempts=4
+          while true; do
+            attempt=$((attempt+1))
+            echo "\n=== Dependency install attempt $attempt/$max_attempts ==="
+            echo "Cleaning npm cache (best-effort)"; npm cache clean --force || true
+            install_status=1
+            if [ -f package-lock.json ]; then
+              echo "Found package-lock.json -> npm ci"
+              if npm ci --no-audit --no-fund --include=dev; then
+                install_status=0
+              else
+                install_status=$?
+              fi
+            else
+              echo "No package-lock.json -> npm install (will generate one)"
+              if npm install --no-audit --no-fund --include=dev; then
+                install_status=0
+              else
+                install_status=$?
+              fi
+            fi
+            if [ ${install_status} -eq 0 ]; then
+              break
+            fi
+            if [ $attempt -ge $max_attempts ]; then
+              echo "::error::npm install failed after $attempt attempts (status ${install_status})"; exit ${install_status}
+            fi
+            echo "Install failed (exit ${install_status}). Inspecting logs for integrity/network issues..."
+            # Common remediation for EINTEGRITY is to purge tarballs & retry
+            echo "Sleeping 3s before retry..."; sleep 3
+          done
+          echo "Dependency install succeeded on attempt $attempt"
+          # Verify critical dependency 'next'
+          if [ ! -f node_modules/next/package.json ]; then
+            echo "::error::next dependency missing after install"; ls -1 node_modules | head; exit 1;
+          fi
+        env:
+          CI: true
+
+      - name: Build
+        run: |
+          npx next telemetry disable || true
+          npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Prepare deploy artifact
+        run: |
+          if [ "$STANDALONE" = "true" ]; then
+            mkdir -p deploy
+            cp -R .next/standalone/* deploy/
+            # Ensure nested .next directory exists before copying static assets
+            mkdir -p deploy/.next
+            cp -R .next/static deploy/.next/static
+            cp -R public deploy/public
+            # Copy package.json first, then adjust start script
+            cp package.json deploy/package.json
+            if grep -q '"start"' deploy/package.json 2>/dev/null; then
+              sed -i.bak 's/"start"[^\n]*/"start": "node server.js",/' deploy/package.json || true
+            fi
+            # Ensure env file is present (App Service won't auto-load it; prefer App Settings for real secrets)
+            if [ -f .env.production ]; then cp .env.production deploy/.env.production; fi
+            (cd deploy && zip -r ../deploy.zip .)
+          else
+            zip -r deploy.zip . -x "**/.git*" "**/node_modules/.cache/**" "tmp-npm-cache/**" ".next/cache/**"
+          fi
+        # If standalone, we ship only the minimal runtime tree; else ship full repo incl node_modules
+
+      - name: List archive contents (debug)
+        run: |
+          unzip -l deploy.zip | head -n 40 || true
+          echo "Checking for server.js in archive";
+          unzip -l deploy.zip | grep -q "server.js" && echo "server.js found" || { echo "::error::server.js missing from deploy artifact"; exit 1; }
+
+      - name: Validate publish profile target site
+        if: env.STRICT_PUBLISH_PROFILE_VALIDATION == 'true'
+        run: |
+          echo "Validating publish profile references ${{ env.AZURE_WEBAPP_NAME }}";
+          echo "${{ secrets.AZURE_PUBLISH_PROFILE }}" | grep -q "${{ env.AZURE_WEBAPP_NAME }}" && echo "Publish profile OK" || { echo "::error::Publish profile does not reference ${{ env.AZURE_WEBAPP_NAME }}. Update AZURE_PUBLISH_PROFILE secret with correct Linux publish profile or set STRICT_PUBLISH_PROFILE_VALIDATION='false' temporarily."; exit 1; }
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: site-package
+          path: deploy.zip
+
+      - name: Deploy to Azure WebApp (Zip Deploy)
+        # Pinned to commit SHA of v3 tag (annotated tag object points to this commit) for supply-chain security
+        uses: azure/webapps-deploy@657f0700ea5214d56a0400d8ac5e8023c963d25d
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          package: deploy.zip
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+
+      - name: Post-deploy warmup
+        run: |
+          echo "Warming https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net"
+          curl -I https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net || true
+          echo "Warmup completed"
+
+      - name: Post-deploy health check
+        run: |
+          set -e
+          BASE="https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net"
+          echo "Polling health endpoint $BASE/api/health (with increased timeout for cold start)"
+          attempts=0
+          max=30
+          sleep_seconds=10
+          while true; do
+            attempts=$((attempts+1))
+            status=$(curl -s -o /dev/null -w "%{http_code}" "$BASE/api/health" || echo "000")
+            if [ "$status" = "200" ]; then
+              echo "Health check passed (HTTP 200) on attempt $attempts"; break; fi
+            if [ $attempts -ge $max ]; then
+              echo "::warning::Health check failed after $attempts attempts (last status $status). Site may still work - checking root...";
+              root_status=$(curl -s -o /dev/null -w "%{http_code}" "$BASE" || echo "000")
+              echo "Root status: $root_status"
+              if [ "$root_status" = "200" ]; then
+                echo "Root page accessible. Health endpoint may be misconfigured but site is live."
+                exit 0
+              else
+                echo "::error::Both health and root endpoints failed"; exit 1
+              fi
+            fi
+            echo "Attempt $attempts: status $status. Retrying in ${sleep_seconds}s..."; sleep $sleep_seconds
+          done

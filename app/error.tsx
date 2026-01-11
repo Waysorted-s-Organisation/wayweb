@@ -1,8 +1,13 @@
 "use client"
 import Image from "next/image";
+<<<<<<< HEAD
 
 export default function GlobalError({ error }: { error: Error }) {
     if (error.message.includes("500")) {
+=======
+export default function GlobalError({ error }: { error: Error }) {
+    if(error.message.includes("500")) {
+>>>>>>> wayweb/main
         return (
             <>
                 <main className="relative min-h-screen hidden md:flex flex-col items-center justify-center text-center px-4 error-bg-dots overflow-hidden select-none">

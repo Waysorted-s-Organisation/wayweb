@@ -15,8 +15,13 @@ export const ProductsMenu: React.FC<ProductsMenuProps> = ({ isOpen, className })
     <div
       className={`products-menu absolute top-full w-[780px] 
         bg-white menu-shadow rounded-xl overflow-hidden ${className}
+<<<<<<< HEAD
         transition-opacity duration-150
         ${isOpen ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+=======
+        transition-all duration-300 origin-top
+        ${isOpen ? "scale-y-100 opacity-100" : "scale-y-0 opacity-0"}`}
+>>>>>>> wayweb/main
     >
       {/* Grid area with bg-menu-bg */}
       <div className="bg-white grid grid-cols-3 max-h-[240px] rounded-md overflow-y-auto custom-scrollbar m-2">

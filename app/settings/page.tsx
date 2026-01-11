@@ -23,6 +23,7 @@ type TabKey =
   | "integrations"
   | "beta";
 
+<<<<<<< HEAD
 export default function ProfilePage() {
   const searchParams = useSearchParams();
   const tabParam = searchParams.get("tab") as TabKey | null;
@@ -33,13 +34,26 @@ export default function ProfilePage() {
   if (!user) return <div>Please log in to access settings.</div>;
 
   const tab = tabParam || "general";
+=======
+export default async function ProfilePage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ tab?: string }>;
+}) {
+  const user = await getCurrentUser();
+  const params = await searchParams;
+  const tab = (params?.tab as TabKey) || "general";
+>>>>>>> wayweb/main
 
   function renderTab() {
     switch (tab) {
       case "general":
         return <GeneralTab />;
+<<<<<<< HEAD
       case "refer":
         return <ReferAndEarnTab />;
+=======
+>>>>>>> wayweb/main
       case "credits":
         return <CreditsUsageTab />;
       case "subscription":
@@ -53,6 +67,10 @@ export default function ProfilePage() {
       default:
         return <GeneralTab />;
     }
+  }
+
+  if (!user) {
+    return <div>User not found.</div>;
   }
 
   return (

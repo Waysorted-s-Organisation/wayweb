@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // import dbConnect from "@/lib/db";
 // import Session, { ISession } from "@/models/session";
 // import type { IUser, IUserMethods } from "@/models/user";
@@ -9,6 +10,24 @@
 // };
 
 // export type PublicUser = ReturnType<IUserMethods["toPublic"]>;
+=======
+import dbConnect from "@/lib/db";
+import Session, { ISession } from "@/models/session";
+import type { IUser, IUserMethods } from "@/models/user";
+import { cookies } from "next/headers";
+import type { HydratedDocument } from "mongoose";
+
+// A session where user is populated
+type PopulatedSession = Omit<ISession, "user"> & {
+  user: HydratedDocument<IUser, IUserMethods>;
+};
+
+// The public user shape we return
+export type PublicUser = ReturnType<IUserMethods["toPublic"]>;
+
+export async function getCurrentUser(): Promise<PublicUser | null> {
+  await dbConnect();
+>>>>>>> wayweb/main
 
 // export async function getCurrentUser(): Promise<PublicUser | null> {
 //   try {
@@ -17,6 +36,7 @@
 //     // Log all cookies (for production inspect your provider logs)
 //     const all = cookieStore.getAll().map((c) => ({ name: c.name, value: c.value }));
 
+<<<<<<< HEAD
 //     const sessionId = cookieStore.get("sessionId")?.value;
 
 //     if (!sessionId) return null;
@@ -33,3 +53,15 @@
 //     return null;
 //   }
 // }
+=======
+  // Find session and populate user
+  const session = await Session.findOne({ sessionId })
+    .populate("user")
+    .exec() as (PopulatedSession | null);
+
+  if (!session?.user) return null;
+
+  // Use the model's built-in method to build a safe DTO
+  return session.user.toPublic();
+}
+>>>>>>> wayweb/main

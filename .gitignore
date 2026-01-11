@@ -5,6 +5,8 @@
 /.pnp
 .pnp.*
 .yarn/*
+.PublishSettings
+*.PublishSettings
 !.yarn/patches
 !.yarn/plugins
 !.yarn/releases
@@ -39,6 +41,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+<<<<<<< HEAD
 full_docx_text.txt
 Documentation Data (2).docx
 tools/figma-mcp/output.log
@@ -46,3 +49,9 @@ tools/figma-mcp/node_modules/
 issues_overview_report.csv
 README-FIGMA-MCP.md
 waysorted.com_IssueDetailsBySeverity_08-01-2026.csv
+=======
+
+
+#Ignore vscode AI rules
+.github/instructions/codacy.instructions.md
+>>>>>>> wayweb/main

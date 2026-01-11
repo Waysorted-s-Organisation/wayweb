@@ -1,15 +1,23 @@
 "use client";
 
 import Image from "next/image";
+<<<<<<< HEAD
 import type { IUser } from "@/models/user";
 
 type Props = {
   user: IUser;
+=======
+import type { PublicUser } from "@/app/settings/lib/user";
+
+type Props = {
+  user: PublicUser;
+>>>>>>> wayweb/main
 };
 
 export default function SubscriptionCard({ user }: Props) {
   const { earlyAccess } = user;
 
+<<<<<<< HEAD
   const startedDisplay = user.createdAt
     ? new Date(user.createdAt).toLocaleDateString(undefined, {
       year: "numeric",
@@ -17,6 +25,16 @@ export default function SubscriptionCard({ user }: Props) {
       day: "numeric",
     })
     : "N/A";
+=======
+  // Define credits logic
+  const creditsTotal = earlyAccess ? 200 : 5;
+  const creditsUsed = Math.max(0, creditsTotal - (creditsRemaining ?? 0));
+  const remaining = Math.max(0, creditsRemaining ?? 0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const exhausted = creditsUsed >= creditsTotal;
+
+  const startedDisplay = earlyAccess ? "Sep 6th, 2025" : "N/A"; // example
+>>>>>>> wayweb/main
   const renewalDisplay = null;
   const statusDisplay = earlyAccess ? "Active" : "N/A";
 

@@ -4,7 +4,11 @@ import Image from "next/image";
 
 export default function ImpactTop() {
   return (
+<<<<<<< HEAD
     <section className="w-full flex flex-col items-center justify-center text-center px-4 sm:px-6 lg:px-8 pt-16 sm:pt-24 lg:pt-32">
+=======
+    <section className="w-full pt-32 flex flex-col items-center justify-center text-center">
+>>>>>>> wayweb/main
       {/* Badge */}
       <span className="inline-flex items-center text-xs sm:text-sm font-medium bg-secondary-db-5 text-secondary-db-100 rounded-md mb-4">
         <Image

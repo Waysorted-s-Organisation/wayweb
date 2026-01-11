@@ -20,6 +20,7 @@ export default function FAQ() {
           >
             <button
               onClick={() => toggleFAQ(index)}
+<<<<<<< HEAD
               aria-label="Toggle FAQ"
               aria-expanded={openIndex === index}
               aria-controls={`faq-panel-${index}`}
@@ -27,6 +28,10 @@ export default function FAQ() {
                 openIndex !== index
                   ? "hover:bg-tertiary-voilet-100 hover:outline-none hover:rounded-lg md:hover:rounded-xl"
                   : ""
+=======
+              className={`relative flex items-center justify-between w-full py-4 px-8 focus:outline-none cursor-pointer space-x-6 ${
+                openIndex !== index ? "hover:bg-tertiary-voilet-100 hover:outline-none hover:rounded-xl" : ""
+>>>>>>> wayweb/main
               }`}
             >
               {/* Question */}
@@ -36,7 +41,11 @@ export default function FAQ() {
 
               {/* Icon */}
               <div
+<<<<<<< HEAD
                 className={`absolute right-4 md:right-5 transition-colors p-2 md:p-3 ${
+=======
+                className={`absolute right-5 transition-colors p-3 ${
+>>>>>>> wayweb/main
                   openIndex === index ? "hover:bg-tertiary-voilet-100 rounded-full" : ""
                 }`}
               >
@@ -54,6 +63,7 @@ export default function FAQ() {
 
             {/* Answer */}
             <div
+<<<<<<< HEAD
               id={`faq-panel-${index}`}
               className={`overflow-hidden transition-[max-height,opacity] duration-300 ease-in-out ${
                 openIndex === index
@@ -67,6 +77,13 @@ export default function FAQ() {
                   {faq.answer}
                 </p>
               </div>
+=======
+              className={`overflow-hidden transition-all duration-300 ${
+                openIndex === index ? "max-h-40 px-8 pb-4" : "max-h-0"
+              }`}
+            >
+              <p className="text-secondary-db-100 text-base font-regular text-left">{faq.answer}</p>
+>>>>>>> wayweb/main
             </div>
           </div>
         ))}

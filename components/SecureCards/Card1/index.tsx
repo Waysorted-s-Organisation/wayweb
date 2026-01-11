@@ -73,6 +73,7 @@ const Card1 = () => {
   return (
     <div
       ref={cardsLR}
+<<<<<<< HEAD
       className="relative overflow-hidden bg-gradient-to-t from-[#8f8f8f] to-[#292929] rounded-lg shadow-md w-full w-[345px] lg:w-[280px] h-[199.17px]"
       role="img"
       aria-label="Permission Control illustration"
@@ -82,6 +83,15 @@ const Card1 = () => {
         <div className="absolute left-[50px] md:left-10 h-full w-full bg-[url('/icons/background-cards.svg')] bg-contain bg-no-repeat bg-center"></div>
         <div className="absolute left-[-246px] md:left-[-230px] h-full w-full bg-[url('/icons/background-cards.svg')] bg-contain bg-no-repeat bg-center"></div>
         <div className="absolute left-[-538px] md:left-[-500px] h-full w-full bg-[url('/icons/background-cards.svg')] bg-contain bg-no-repeat bg-center"></div>
+=======
+      className="relative overflow-hidden bg-gradient-to-t from-[#8f8f8f] to-[#292929]   rounded-lg shadow-md"
+      style={{ width: "289.45px", height: "199.17px" }}
+    >
+      {/* Moving background */}
+      <div className="scroll-bg flex top-0 relative h-[125px] ">
+        <div className="absolute left-0  h-full w-full bg-[url('/icons/background-cards.svg')] bg-contain bg-no-repeat bg-center"></div>
+        <div className="absolute  left-[-289px] h-full w-full bg-[url('/icons/background-cards.svg')] bg-contain bg-no-repeat bg-center"></div>
+>>>>>>> wayweb/main
       </div>
 
       {/* Pendulum card */}
@@ -102,7 +112,11 @@ const Card1 = () => {
         >
           <Image
             src="/icons/two-strip.svg"
+<<<<<<< HEAD
             alt="Permission control strip decoration"
+=======
+            alt=""
+>>>>>>> wayweb/main
             width={100}
             height={250}
             className="strip  bottom-[-50px] left-[-40px] "
@@ -143,7 +157,11 @@ const Card1 = () => {
       <Base1
         title={"Permission Control"}
         content={
+<<<<<<< HEAD
           "Ensure only the right people have the right access."
+=======
+          "Fusce vehicula rutrum lectus, ut posuere libero sodales at. Praesent erat quam,"
+>>>>>>> wayweb/main
         }
       />
     </div>

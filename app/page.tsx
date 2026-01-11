@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import type { Metadata } from "next";
 import Home from "@/components/Home";
 
@@ -9,6 +10,9 @@ export const metadata: Metadata = {
     canonical: "https://www.waysorted.com",
   },
 };
+=======
+import Home from '@/components/Home'
+>>>>>>> wayweb/main
 
 export default function Page() {
   return (

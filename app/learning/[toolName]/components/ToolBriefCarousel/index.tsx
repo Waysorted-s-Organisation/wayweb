@@ -33,6 +33,11 @@ export default function ToolBriefCarousel({
   const [index, setIndex] = React.useState(0)
   const [progress, setProgress] = React.useState(0)
   const totalItems = slides.length + 1
+<<<<<<< HEAD
+=======
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const lastIndex = totalItems - 1
+>>>>>>> wayweb/main
 
   const registerSlideRef = (el: HTMLElement | null, i: number) => {
     if (el) slideRefs.current[i] = el
@@ -190,8 +195,15 @@ export default function ToolBriefCarousel({
         aria-label={`Carousel with ${totalItems} items including one feedback form at the end.`}
       >
         <div
+<<<<<<< HEAD
           ref={trackRef}
           className="flex gap-10 items-center will-change-transform px-4 md:px-0"
+=======
+          ref={scrollerRef}
+            /* Added aria-label so assistive tech knows how many total "slides" including feedback */
+          aria-label={`Carousel with ${totalItems} items including one feedback form at the end.`}
+          className="no-scrollbar-1 flex snap-x snap-mandatory gap-6 overflow-x-auto px-4 md:px-0 scroll-px-4 md:scroll-px-0"
+>>>>>>> wayweb/main
         >
           {slides.map((props, i) => (
             <div

@@ -34,9 +34,13 @@ export default function ToolCard({ tool }: { tool: ITool }) {
             className="object-contain"
           />
         </div>
+<<<<<<< HEAD
         {badge && (
           <Badge type={badge.type} label={badge.label} showDot={false} />
         )}
+=======
+        {badge && <Badge type={badge.type} label={badge.label} showDot={false} />}
+>>>>>>> wayweb/main
       </div>
 
       <h2 className="font-medium text-lg sm:text-xl text-secondary-db-100">

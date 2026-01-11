@@ -78,7 +78,11 @@ export default function BetaFeaturesCard({ user, features }: BetaFeaturesCardPro
           {features.map((f, i) => (
             <li
               key={f.id}
+<<<<<<< HEAD
               className="rounded-md px-4 py-1"
+=======
+              className="rounded-md px-4 py-4"
+>>>>>>> wayweb/main
             >
               <p className="text-base font-semibold text-secondary-db-100">
                 {f.title}

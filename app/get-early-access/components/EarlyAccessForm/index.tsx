@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import GlowStarButton from "@/components/GlowStarButton";
+<<<<<<< HEAD
 import { toast } from "sonner";
 
 async function subscribeUser(name: string, email: string) {
@@ -18,6 +19,8 @@ async function subscribeUser(name: string, email: string) {
     throw new Error(body?.error || body?.message || res.statusText);
   }
 }
+=======
+>>>>>>> wayweb/main
 
 export default function EarlyAccessForm() {
   const [name, setName] = useState("");

@@ -86,6 +86,7 @@
   /* Chart vars skipped for brevity unless needed */
 }
 
+<<<<<<< HEAD
 /* ShadCN Dark Mode */
 .dark {
   --background: 222.2 84% 4.9%;
@@ -107,6 +108,10 @@
   --border: 217.2 32.6% 17.5%;
   --input: 217.2 32.6% 17.5%;
   --ring: 212.7 26.8% 83.9%;
+=======
+body {
+  color: var(--foreground);
+>>>>>>> wayweb/main
 }
 
 @theme inline {
@@ -208,6 +213,7 @@
   box-shadow: inset 0px -24px 33px rgba(255, 255, 255, 0.25);
 }
 
+<<<<<<< HEAD
 .join-shadow-1:hover {
   box-shadow: inset 0px -8px 33px rgba(255, 255, 255, 0.25);
 }
@@ -222,6 +228,12 @@
     0px 2.6px 19.07px rgba(0, 0, 0, 0.05);
 }
 
+=======
+.shadow-glow:hover {
+  box-shadow: inset 0 0 8px rgba(255, 255, 255, 0.6);
+}
+
+>>>>>>> wayweb/main
 body {
   -ms-overflow-style: none; /* Internet Explorer 10+ */
   overflow-y: scroll; /* Ensures layout consistency */
@@ -254,7 +266,11 @@ body {
 }
 
 *::-webkit-scrollbar-thumb {
+<<<<<<< HEAD
   background: #A5BFF1;
+=======
+  background: #e67427;
+>>>>>>> wayweb/main
   border-radius: 999px;
 }
 
@@ -308,10 +324,23 @@ html, body {
   background-size: 25px 25px; 
 }
 
+<<<<<<< HEAD
 .bg-mavens {
   background-color: #FFFAF6; 
   background-image: radial-gradient(#797B7F 0.25px, transparent 1px);
   background-size: 25px 25px; 
+=======
+.glass-bg {
+  background : #D9D9D9;
+  background-image: radial-gradient(#000000 0.25px, transparent 1px);
+  background-size: 25px 25px;
+}
+
+.gray-bg-dots {
+  background-color: #0d1218;
+  background-image: radial-gradient(#797b7f80 0.25px, transparent 1px);
+  background-size: 25px 25px;
+>>>>>>> wayweb/main
 }
 
 .glass-bg {
@@ -340,7 +369,11 @@ html, body {
 
 .tertiary-orange-500-bg-dots {
   background-color: rgba(249, 119, 49, 0.1);
+<<<<<<< HEAD
   background-image: radial-gradient(#43474b80 0.25px, transparent 1px);
+=======
+  background-image: radial-gradient(#43474b 0.25px, transparent 1px);
+>>>>>>> wayweb/main
   background-size: 25px 25px;
 }
 
@@ -562,9 +595,88 @@ html, body {
   outline: 1px dashed #6aa0ff;
 }
 
+<<<<<<< HEAD
 .white-bg-dots {
   background-color: #ffffff;
   background-image: radial-gradient(#565A5E 0.25px, transparent 1px);
+=======
+@property --glow-deg {
+  syntax: "<angle>";
+  inherits: true;
+  initial-value: -90deg;
+}
+
+@property --clr-1 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #84AAFC;
+}
+
+@property --clr-2 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: #FDEFA1;
+}
+
+@property --clr-3 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: white;
+}
+
+@property --clr-4 {
+  syntax: "<color>";
+  inherits: true;
+  initial-value: white;
+}
+
+
+.glowing-border {
+  --gradient-glow: var(--clr-1), var(--clr-1), var(--clr-2), var(--clr-3), var(--clr-4);
+
+  border: var(--border-width, 2px) solid transparent;
+  border-radius: 12px;
+  background: linear-gradient(var(--surface, white) 0 0) padding-box,
+    conic-gradient(from var(--glow-deg), var(--gradient-glow)) border-box;
+
+  position: relative;
+  isolation: isolate;
+
+  animation: glow 10s infinite linear;
+}
+
+@keyframes glow {
+  100% {
+    --glow-deg: 270deg;
+  }
+}
+
+.glowing-border::before,
+.glowing-border::after {
+  content: "";
+  position: absolute;
+  inset: 0; /* ✅ match parent size */
+  border-radius: inherit;
+}
+
+.glowing-border::before {
+  z-index: -1;
+  background: var(--surface, white);
+  filter: blur(var(--glow-size, 1rem));
+}
+
+.glowing-border::after {
+  z-index: -2;
+  background: conic-gradient(from var(--glow-deg), var(--gradient-glow));
+  filter: blur(var(--glow-size, 1rem));
+  opacity: var(--glow-intensity, 0.2);
+  border-radius: inherit;
+}
+
+.white-bg-dots {
+  background-color: #ffffff;
+  background-image: radial-gradient(#00000080 0.25px, transparent 1px);
+>>>>>>> wayweb/main
   background-size: 25px 25px;
 }
 
@@ -591,7 +703,11 @@ html, body {
 
 /* size and color presets */
 .glow--md { --glow-size: 64px; --glow-radius: 12px; }
+<<<<<<< HEAD
 .glow--green { --glow-color: #265BD1; }
+=======
+.glow--green { --glow-color: #01A04E; }
+>>>>>>> wayweb/main
 
 /* Rings behind the icon (explicit stacking) */
 .glow-icon .glow-ring {
@@ -599,7 +715,11 @@ html, body {
   inset: 0;
   z-index: 0;                         /* behind */
   border-radius: var(--glow-radius, 12px);
+<<<<<<< HEAD
   background: var(--glow-color, #265BD1);
+=======
+  background: var(--glow-color, #01A04E);
+>>>>>>> wayweb/main
   opacity: var(--glow-opacity);
   transform-origin: center;
   filter: blur(var(--glow-blur));      /* set >0 only if you don't see artifacts */
@@ -616,7 +736,11 @@ html, body {
 /* SVG above the rings */
 .glow-icon .glow-svg {
   position: relative;
+<<<<<<< HEAD
   z-index: 2;                         /* above */
+=======
+  z-index: 1;                         /* above */
+>>>>>>> wayweb/main
   width: 100%;
   height: 100%;
   transform: translateZ(0);           /* helps some GPU artifacts */
@@ -786,6 +910,7 @@ html, body {
     filter: blur(8px);
   }
 }
+<<<<<<< HEAD
  
 .floating-card {
   transition: transform 0.25s ease;
@@ -903,3 +1028,6 @@ html, body {
 [data-state="closed"][data-slot="sheet-content"] {
   animation: sheet-slide-out-to-right 0.3s ease-in-out forwards;
 }
+=======
+ 
+>>>>>>> wayweb/main
