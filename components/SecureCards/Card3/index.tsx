@@ -44,45 +44,25 @@ const Card3 = () => {
 
   return (
     <div
-<<<<<<< HEAD
       className="bg-gradient-to-b from-[#2A2E34] to-[#525252] relative rounded-xl overflow-hidden w-full lg:w-[345.29px] h-[241.05px]"
-      role="img"
-      aria-label="Secure API Access illustration"
-    >
-      <Image
-        src="/icons/left-cloud.svg"
-        alt="Decorative cloud"
-        aria-hidden="true"
-=======
-      className=" bg-gradient-to-b from-[#2A2E34] to-[#525252]  relative rounded-xl overflow-hidden "
-      style={{ width: "345.29px", height: "241.05px" }}
     >
       <Image
         src="/icons/left-cloud.svg"
         alt=""
->>>>>>> wayweb/main
         className="vib-cloud1 relative top-20 w-16 "
         width={10}
         height={10}
       />
       <Image
         src="/icons/right-cloud.svg"
-<<<<<<< HEAD
-        alt="Decorative cloud"
-=======
         alt=""
->>>>>>> wayweb/main
         className="vib-cloud2 relative -top-5 left-28 -rotate-360 w-16"
         width={10}
         height={10}
       />
       <Image
         src="/icons/left-cloud.svg"
-<<<<<<< HEAD
-        alt="Decorative cloud"
-=======
         alt=""
->>>>>>> wayweb/main
         className="vib-cloud3 relative -top-6  left-74 w-16"
         width={10}
         height={10}
@@ -101,22 +81,14 @@ const Card3 = () => {
       >
         <Image
           src="/icons/short-strip.svg"
-<<<<<<< HEAD
-          alt="Security strip decoration"
-=======
           alt=""
->>>>>>> wayweb/main
           width={100}
           height={250}
           className="strip scale-120 absolute bottom-[-30px] left-[-40px] "
         />
         <Image
           src="/icons/large-strip.svg"
-<<<<<<< HEAD
-          alt="Security strip decoration"
-=======
           alt=""
->>>>>>> wayweb/main
           width={125}
           height={350}
           className="strip scale-120 absolute bottom-[-50px] left-[-75px] "
@@ -125,11 +97,7 @@ const Card3 = () => {
       <Base1
         title={"Secure API Access"}
         content={
-<<<<<<< HEAD
           "Your data is protected by a private, digital lockbox."
-=======
-          "Fusce vehicula rutrum lectus, ut posuere libero sodales at. Praesent erat quam,"
->>>>>>> wayweb/main
         }
         libero="pr-14"
       />

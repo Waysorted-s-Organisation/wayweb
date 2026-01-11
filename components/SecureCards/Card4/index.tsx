@@ -61,26 +61,12 @@ const Card4 = () => {
 
   return (
     <div
-<<<<<<< HEAD
       className="bg-gradient-to-b relative from-[#2A2E34] to-[#525252] rounded-xl overflow-hidden w-full lg:w-[346.22px] h-[241.05px]"
-      role="img"
-      aria-label="Data Encryption illustration"
-=======
-      className="bg-gradient-to-b relative from-[#2A2E34] to-[#525252] rounded-xl  overflow-hidden"
-      style={{
-        width: "346.22px",
-        height: "241.05px",
-      }}
->>>>>>> wayweb/main
     >
       {/* Animated Background */}
       <div
         ref={bgRef}
         className="h-[41%] w-full scale-200"
-<<<<<<< HEAD
-        aria-hidden="true"
-=======
->>>>>>> wayweb/main
         style={{
           backgroundImage: "url('/icons/zero-one1.svg')",
           backgroundSize: "cover",
@@ -113,11 +99,7 @@ const Card4 = () => {
         <Image
           ref={stripRef}
           src="/icons/three-strip.svg"
-<<<<<<< HEAD
-          alt="Data encryption strip decoration"
-=======
           alt=""
->>>>>>> wayweb/main
           width={350}
           height={550}
           className="strip absolute scale-200 bottom-[60px] left-[-80px] "
@@ -127,11 +109,7 @@ const Card4 = () => {
       {/* Base Text Component */}
       <Base1
         title="Data Encryption"
-<<<<<<< HEAD
         content="Your stored data is unreadable, even if compromised."
-=======
-        content="Fusce vehicula rutrum lectus, ut posuere libero sodales at. Praesent erat quam,"
->>>>>>> wayweb/main
         libero="pr-15"
       />
     </div>

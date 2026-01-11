@@ -31,27 +31,25 @@ export default function LearnMorePage() {
     async function fetchData() {
       setLoading(true)
       try {
-        // Fetch tools and slides in PARALLEL for faster loading
-        const [toolsRes, slidesRes] = await Promise.all([
-          fetch('/api/tools/active'),
-          toolName ? fetch(`/api/tools/${encodeURIComponent(toolName)}/slides`) : Promise.resolve(null)
-        ])
-
-        if (!mounted) return
-
+        // fetch active tools
+        const toolsRes = await fetch('/api/tools/active')
         const toolsJson = await toolsRes.json()
         const toolsData: ITool[] = toolsJson?.data ?? []
+        if (!mounted) return
         setAllTools(toolsData)
 
         // Find the tool by slug (toolName)
         const foundTool = toolsData.find((t: ITool) => t.slug === toolName)
+        if (!mounted) return
         setTool(foundTool ?? null)
 
-        if (slidesRes) {
+        if (toolName) {
+          const slidesRes = await fetch(`/api/tools/${encodeURIComponent(toolName)}/slides`)
           const slidesJson = await slidesRes.json()
           if (!mounted) return
           setSlides(slidesJson?.slides ?? [])
         } else {
+          if (!mounted) return
           setSlides([])
         }
       } catch (error) {
@@ -83,13 +81,6 @@ export default function LearnMorePage() {
     return null
   }
 
-=======
-  const slides: SlideWithoutToolName[] = (allSlides as SlideData[])
-    .filter((s: SlideData) => s.toolName === toolName)
-    //eslint-disable-next-line @typescript-eslint/no-unused-vars
-    .map(({ toolName: _ignore, ...rest }: SlideData) => rest)  
-
->>>>>>> wayweb/main
   return (
     <div>
       <main
@@ -158,7 +149,6 @@ export default function LearnMorePage() {
             {loading && <p className="text-center">Loading slides…</p>}
           </div>
         </div>
-<<<<<<< HEAD
 
         <ExploreMore tools={allTools} />
         <JoinCommunity />

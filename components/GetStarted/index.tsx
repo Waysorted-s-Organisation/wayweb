@@ -1,12 +1,8 @@
 "use client";
 
 import React from "react";
-<<<<<<< HEAD
 import { motion } from "framer-motion";
 import { useRouter } from "next/navigation";
-=======
-import GlowingStarButton from "@/components/GlowStarButton";
->>>>>>> wayweb/main
 
 // Configuration for your 8 SVG assets
 // Adjust the 'x' and 'y' values if specific icons (like the text bubbles) 
@@ -86,7 +82,6 @@ const GetStarted = () => {
         </p>
       </div>
 
-<<<<<<< HEAD
       {/* INTERACTIVE CONTAINER */}
       <motion.div 
         className="relative mt-12 sm:mt-16 md:mt-24 flex items-center justify-center"
@@ -150,20 +145,6 @@ const GetStarted = () => {
         <div className="absolute inset-0 bg-secondary-db-100 blur-3xl opacity-20 z-0 rounded-full pointer-events-none" />
         
       </motion.div>
-=======
-      {/* Subheading */}
-      <p className="mt-4 text-secondary-db-80 font-medium text-xl text-center max-w-6xl">
-        Waysorted transforms your <span className="text-primary-way-100">workflow, Instantly.</span>
-      </p>
-
-      {/* Button */}
-      <GlowingStarButton
-        className="mt-12 rounded-4xl text-white font-medium text-7xl 
-                   bg-secondary-db-100 join-shadow cursor-pointer"
-      >
-        Get Started!
-      </GlowingStarButton>
->>>>>>> wayweb/main
     </section>
   );
 };

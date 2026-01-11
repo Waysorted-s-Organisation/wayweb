@@ -38,11 +38,8 @@ export default function ProfilePage() {
     switch (tab) {
       case "general":
         return <GeneralTab />;
-<<<<<<< HEAD
       case "refer":
         return <ReferAndEarnTab />;
-=======
->>>>>>> wayweb/main
       case "credits":
         return <CreditsUsageTab />;
       case "subscription":
@@ -56,10 +53,6 @@ export default function ProfilePage() {
       default:
         return <GeneralTab />;
     }
-  }
-
-  if (!user) {
-    return <div>User not found.</div>;
   }
 
   return (

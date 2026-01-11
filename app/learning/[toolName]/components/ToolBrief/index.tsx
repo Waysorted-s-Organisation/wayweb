@@ -9,7 +9,6 @@ export type ToolBriefProps = {
   image: StaticImageData | string
   imageAlt?: string
   className?: string
-  priority?: boolean // Controls if image should load with priority (first slide only)
 }
 
 export default function ToolBrief({
@@ -19,7 +18,6 @@ export default function ToolBrief({
   image,
   imageAlt = '',
   className = '',
-  priority = false, // Default to false for lazy loading
 }: ToolBriefProps) {
   return (
     <section
@@ -41,8 +39,7 @@ export default function ToolBrief({
             alt={imageAlt}
             fill
             className="object-cover"
-            priority={priority}
-            loading={priority ? undefined : "lazy"}
+            priority
           />
         </div>
         {/* Right: content, rounded on right only */}

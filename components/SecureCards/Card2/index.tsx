@@ -155,17 +155,7 @@ const Card2 = () => {
 
   return (
     <div
-<<<<<<< HEAD
       className="relative overflow-hidden bg-gradient-to-t from-[#525252] to-[#2A2E34] rounded-lg shadow-md w-full lg:w-[402.06px] h-[199.17px]"
-      role="img"
-      aria-label="Trusted Keys illustration"
-=======
-      className="relative overflow-hidden bg-gradient-to-t from-[#525252] to-[#2A2E34]  rounded-lg shadow-md"
-      style={{
-        width: "402.06px",
-        height: "199.17px",
-      }}
->>>>>>> wayweb/main
     >
       <div ref={keyDrop} className="relative w-full h-full overflow-hidden">
         {/* Left falling key */}
@@ -221,11 +211,7 @@ const Card2 = () => {
         {/* Base content */}
         <Base1
           title="Trusted Keys"
-<<<<<<< HEAD
           content="Log in securely without ever sharing your password."
-=======
-          content="Fusce vehicula rutrum lectus, ut posuere libero  sodales at. Praesent erat quam,"
->>>>>>> wayweb/main
           libero="pr-30"
         />
       </div>

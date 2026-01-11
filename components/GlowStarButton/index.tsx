@@ -89,8 +89,8 @@ export default function GlowStarButton({
     for (let i = 0; i < starCount; i++) {
       const r = rngForIndex(effectiveSeed, i);
 
-      let left = minX + r() * (maxX - minX);
-      let top = minY + r() * (maxY - minY);
+      const left = minX + r() * (maxX - minX);
+      const top = minY + r() * (maxY - minY);
 
       // Push away from center zone
     }

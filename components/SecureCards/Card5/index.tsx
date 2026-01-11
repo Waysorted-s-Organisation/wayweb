@@ -31,26 +31,12 @@ const Card5 = () => {
 
   return (
     <div
-<<<<<<< HEAD
       className="relative bg-gradient-to-b from-[#2A2E34] to-[#525252] rounded-xl overflow-hidden w-full w-[345px] lg:w-[312.71px] h-[455.11px]"
-      role="img"
-      aria-label="Data Encryption illustration"
-=======
-      className="bg-gradient-to-b from-[#2A2E34] to-[#525252]  absolute rounded-xl overflow-hidden  "
-      style={{
-        width: "312.71px",
-        height: "455.11px",
-      }}
->>>>>>> wayweb/main
     >
       {/* Animated Background */}
       <div
         ref={bgRef}
         className="h-[76%] w-full "
-<<<<<<< HEAD
-        aria-hidden="true"
-=======
->>>>>>> wayweb/main
         style={{
           backgroundImage: "url('/icons/rotate-dot1.svg')",
           backgroundPosition: "center",
@@ -58,11 +44,7 @@ const Card5 = () => {
       ></div>
       <Image
         src="/icons/cpu.svg"
-<<<<<<< HEAD
-        alt="Waysorted CPU chip icon representing encrypted data processing"
-=======
         alt="lock"
->>>>>>> wayweb/main
         width={249}
         height={210}
         className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
@@ -86,11 +68,7 @@ const Card5 = () => {
       <Base1
         title={"Data Encryption"}
         content={
-<<<<<<< HEAD
           "All your data travels through a secure, encrypted tunnel."
-=======
-          "Fusce vehicula rutrum lectus, ut posuere libero sodales at. Praesent erat quam,"
->>>>>>> wayweb/main
         }
         libero="pr-5"
       />

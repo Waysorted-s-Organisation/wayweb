@@ -33,10 +33,6 @@ export default function ToolBriefCarousel({
   const [index, setIndex] = React.useState(0)
   const [progress, setProgress] = React.useState(0)
   const totalItems = slides.length + 1
-=======
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const lastIndex = totalItems - 1
->>>>>>> wayweb/main
 
   const registerSlideRef = (el: HTMLElement | null, i: number) => {
     if (el) slideRefs.current[i] = el
@@ -115,18 +111,18 @@ export default function ToolBriefCarousel({
           },
           ...(slidesEls.length > 1
             ? {
-              snap: {
-                snapTo: (value: number) => {
-                  applyRightSpacer()
-                  const { targetShifts, endShift: freshEnd } = measure()
-                  if (freshEnd <= 0) return 0
-                  const points = targetShifts.map((s) => s / freshEnd)
-                  return gsap.utils.snap(points, value)
-                },
-                duration: 0.25,
-                ease: 'power1.inOut'
+                snap: {
+                  snapTo: (value: number) => {
+                    applyRightSpacer()
+                    const { targetShifts, endShift: freshEnd } = measure()
+                    if (freshEnd <= 0) return 0
+                    const points = targetShifts.map((s) => s / freshEnd)
+                    return gsap.utils.snap(points, value)
+                  },
+                  duration: 0.25,
+                  ease: 'power1.inOut'
+                }
               }
-            }
             : {}),
           onUpdate: (self) => {
             setProgress(self.progress)
@@ -194,7 +190,6 @@ export default function ToolBriefCarousel({
         aria-label={`Carousel with ${totalItems} items including one feedback form at the end.`}
       >
         <div
-<<<<<<< HEAD
           ref={trackRef}
           className="flex gap-10 items-center will-change-transform px-4 md:px-0"
         >
@@ -206,7 +201,7 @@ export default function ToolBriefCarousel({
               aria-label={`${i + 1} of ${totalItems}`}
               draggable={false}
             >
-              <ToolBrief {...props} priority={i === 0} />
+              <ToolBrief {...props} />
             </div>
           ))}
 

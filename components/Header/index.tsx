@@ -9,12 +9,8 @@ import LanguageDropdown from '../LanguageDropdown';
 import { useRouter } from 'next/navigation';
 import { useUser } from '@/hooks/useUser';
 import UserMenu from '@/components/UserMenu';
-<<<<<<< HEAD
 import products from "@/data/products.json"
 // import GlowingStarButton from '@/components/GlowStarButton';
-=======
-import GlowingStarButton from '@/components/GlowStarButton';
->>>>>>> wayweb/main
 
 interface HeaderProps {
   showBanner: boolean;
@@ -55,7 +51,6 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
     }
   }
 
-<<<<<<< HEAD
   // Close menus on route change (back/forward)
   useEffect(() => {
     const closeAll = () => {
@@ -151,58 +146,28 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
   const logoSrc = isSecureSection ? '/icons/logo-white.svg' : '/images/logo.svg';
   const logoLanguage = isSecureSection ? '/icons/language-white.svg' : '/icons/world.svg';
 
-=======
->>>>>>> wayweb/main
   return (
     <header
       ref={headerRef}
       className={`w-full fixed top-0 z-40 ${isSecureSection ? 'bg-secondary-db-100' : 'bg-white border-b border-gray-200'}`}
     >
-      {showBanner && (() => {
-        // Random CTA variations - dice effect
-        const ctaVariations = [
-          {
-            text: "Create presentation-ready PDFs in one click...",
-            link: "/learning/frames-to-pdf",
-            linkText: "Click here"
-          },
-          {
-            text: "Convert units & prep designs for print instantly...",
-            link: "/learning/unit-converter",
-            linkText: "Click here"
-          },
-          {
-            text: "Import external design assets more seamlessly...",
-            link: "/learning/file-importer",
-            linkText: "Click here"
-          },
-          {
-            text: "Try Palettable for quick Color schemes and Contrast check...",
-            link: "/learning/palettable",
-            linkText: "Click here"
-          }
-        ];
-        const randomIndex = Math.floor(Math.random() * ctaVariations.length);
-        const cta = ctaVariations[randomIndex];
-
-        return (
-          <div className="w-full bg-primary-way-100 text-white text-center py-2 text-sm relative">
-            {cta.text}{' '}
-            <Link href={cta.link} className="underline">
-              {cta.linkText}
-            </Link>
-            <button
-              onClick={() => setShowBanner(false)}
-              className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
-              aria-label="Close banner"
-            >
-              <div className="bg-white/10 p-2 rounded-lg">
-                <Image src="/icons/close.svg" alt="Close" width={10} height={10} />
-              </div>
-            </button>
-          </div>
-        );
-      })()}
+      {showBanner && (
+        <div className="w-full bg-primary-way-100 text-white text-center py-2 text-sm relative">
+          Try Palettable for quick Color schemes and Contrast check ....{' '}
+          <Link href="/learning/palettable" className="underline">
+            Click here
+          </Link>
+          <button
+            onClick={() => setShowBanner(false)}
+            className="absolute right-4 top-1/2 -translate-y-1/2 cursor-pointer"
+            aria-label="Close banner"
+          >
+            <div className="bg-white/10 p-2 rounded-lg">
+              <Image src="/icons/close.svg" alt="Close" width={10} height={10} />
+            </div>
+          </button>
+        </div>
+      )}
 
       <nav className="mx-auto px-4 md:px-16 z-40">
         <div className="flex justify-between items-center h-16 md:h-16">
@@ -240,7 +205,7 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
                 height={4}
                 className={`transition-transform duration-300 ${productsOpen ? 'rotate-180' : ''}`}
               />
-              <ProductsMenu isOpen={productsOpen} className="absolute translate-x-[-20%] top-full pt-4" />
+              <ProductsMenu isOpen={productsOpen} className="absolute translate-x-[-20%] translate-y-4" />
             </div>
 
             <div
@@ -262,11 +227,10 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
               />
               <ResourcesMenu
                 isOpen={resourcesOpen}
-                className="absolute translate-x-[-20%] top-full pt-4"
+                className="absolute translate-x-[-20%] translate-y-4"
               />
             </div>
 
-<<<<<<< HEAD
             <button
               className={`flex items-center pr-3 font-medium text-sm cursor-pointer ${textColor}`}
               onClick={() => router.push('/about-us')}
@@ -280,8 +244,6 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
             >
               Support
             </button>
-
-
           </div>
 
           {/* Right actions */}
@@ -314,21 +276,13 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
 
             {/* <GlowingStarButton
               className={`hidden md:flex bg-secondary-db-100 shadow-glow font-medium text-sm md:text-base text-white px-4 md:px-5 py-2 rounded-lg items-center active:scale-95 transition-colors duration-100 cursor-pointer ${isSecureSection ? 'border border-secondary-db-80' : ''}`}
-=======
-            <GlowingStarButton
-              className="bg-secondary-db-100 shadow-glow font-medium text-base text-white px-5 py-2 rounded-lg flex items-center active:scale-95 transition-colors duration-100 cursor-pointer"
->>>>>>> wayweb/main
               title="Get Early Access"
               aria-label="Get Early Access"
               onClick={() => router.push('/get-early-access')}
               disabled={!!user?.earlyAccess}
             >
               <span>Get Early Access</span>
-<<<<<<< HEAD
             </GlowingStarButton> */}
-=======
-            </GlowingStarButton>
->>>>>>> wayweb/main
 
             {/* Auth buttons: desktop only */}
             {!loading && !user && (
@@ -369,8 +323,9 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
       >
         {/* Overlay */}
         <div
-          className={`absolute inset-0 bg-black/40 transition-opacity duration-200 ${mobileOpen ? 'opacity-100' : 'opacity-0'
-            }`}
+          className={`absolute inset-0 bg-black/40 transition-opacity duration-200 ${
+            mobileOpen ? 'opacity-100' : 'opacity-0'
+          }`}
           // Also close on overlay click (though aside might cover it)
           onClick={() => setMobileOpen(false)}
         />
@@ -388,8 +343,9 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
           <div
             // Stop propagation so clicks inside the card don't close the drawer
             onClick={(e) => e.stopPropagation()}
-            className={`relative h-[calc(100%-64px)] w-full max-w-[420px] bg-white border border-secondary-db-20 rounded-2xl shadow-xl flex flex-col overflow-hidden transition-all duration-200 ${mobileOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-1 scale-95'
-              }`}
+            className={`relative h-[calc(100%-64px)] w-full max-w-[420px] bg-white border border-secondary-db-20 rounded-2xl shadow-xl flex flex-col overflow-hidden transition-all duration-200 ${
+              mobileOpen ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-1 scale-95'
+            }`}
           >
             {/* Scrollable content (no title row per design) */}
             <nav className="flex-1 overflow-y-auto">
@@ -422,8 +378,9 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
               {/* Products panel */}
               <div
                 id="mobile-products-panel"
-                className={`overflow-hidden transition-[max-height,opacity] duration-300 ${mobileProductsOpen ? 'max-h-[1200px] opacity-100' : 'max-h-0 opacity-0'
-                  }`}
+                className={`overflow-hidden transition-[max-height,opacity] duration-300 ${
+                  mobileProductsOpen ? 'max-h-[1200px] opacity-100' : 'max-h-0 opacity-0'
+                }`}
               >
                 <ul className="mt-2 px-3 space-y-2">
                   {products.map((p) => (
@@ -438,7 +395,7 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
                       >
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-primary-way-50/30">
                           {p.icon ? (
-                            <Image src={p.icon} alt={p.name} width={40} height={40} />
+                            <Image src={p.icon} alt="" width={40} height={40} />
                           ) : (
                             <span className="text-lg">✨</span>
                           )}
@@ -484,8 +441,9 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
               {/* Resources panel */}
               <div
                 id="mobile-resources-panel"
-                className={`overflow-hidden transition-[max-height,opacity] duration-300 ${mobileResourcesOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
-                  }`}
+                className={`overflow-hidden transition-[max-height,opacity] duration-300 ${
+                  mobileResourcesOpen ? 'max-h-[800px] opacity-100' : 'max-h-0 opacity-0'
+                }`}
               >
                 <div className="px-3">
                   <div className="mt-2 rounded-xl border border-primary-way-10 bg-primary-way-5 overflow-hidden">
@@ -518,7 +476,7 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
               <div className="px-3">
                 <button
                   className="w-full flex items-center gap-2 px-3 py-4 text-secondary-db-100"
-                  onClick={() => { router.push('/about-us') }}
+                  onClick={() => {router.push('/about-us')}}
                 >
                   <span className="font-medium">About Us</span>
                 </button>
@@ -527,20 +485,11 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
               <div className="px-3">
                 <button
                   className="w-full flex items-center gap-2 px-3 py-4 text-secondary-db-100"
-                  onClick={() => { router.push('/support') }}
+                  onClick={() => {router.push('/support')}}
                 >
                   <span className="font-medium">Support</span>
                 </button>
                 <div className="border-t border-primary-way-10" />
-              </div>
-
-              <div className="px-3 py-3">
-                <button
-                  className="w-full rounded-xl bg-secondary-db-100 text-white px-4 py-3 font-semibold shadow-card active:scale-[0.99]"
-                  onClick={() => { router.push('/requests'); setMobileOpen(false); setMobileProductsOpen(false); setMobileResourcesOpen(false); }}
-                >
-                  Request a feature
-                </button>
               </div>
 
               {/* Language pill + dropdown */}
@@ -566,8 +515,23 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
               </div>
             </nav>
 
-
-
+            {/* Sticky bottom primary action */}
+            <div
+              className="sticky bottom-0 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/70 border-t border-primary-way-10 px-4 py-3"
+              style={{ paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 12px)' }}
+            >
+              <button
+                onClick={() => {
+                  router.push('/request-a-feature');
+                  setMobileOpen(false);
+                }}
+                className="w-full inline-flex items-center justify-between rounded-lg bg-primary-way-100 text-white px-4 py-3 font-medium active:scale-[0.98]"
+              >
+                <span>Request a feature</span>
+                <Image src="/icons/arrow-right-white.svg" alt="" width={18} height={18} />
+              </button>
+            </div>
+            
           </div>
           {mobileOpen && (
             <button
@@ -578,7 +542,7 @@ const Header = ({ showBanner, setShowBanner }: HeaderProps) => {
               }}
               className="absolute left-1/2 top-4 -translate-x-1/2 z-[60] h-12 w-12 rounded-full flex items-center justify-center bg-neutral-800/70 text-white border border-white/40 ring-1 ring-white/30 shadow-2xl backdrop-blur p-0 leading-none"
             >
-              <Image src="/icons/close.svg" alt="Close menu" width={18} height={18} />
+              <Image src="/icons/close.svg" alt="" width={18} height={18} />
             </button>
           )}
         </aside>
