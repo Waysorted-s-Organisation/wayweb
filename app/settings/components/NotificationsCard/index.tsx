@@ -87,12 +87,7 @@ export default function NotificationsCard({ user }: Props) {
         ) : (
           <>
             <div className="space-y-3">
-<<<<<<< HEAD
               {notifications?.map((notification) => (
-=======
-              {/* eslint-disable-next-line @typescript-eslint/no-unused-vars */}
-              {categories.map((c, i) => (
->>>>>>> wayweb/main
                 <button
                   key={notification.id}
                   className="w-full text-left rounded-lg px-4 py-4 transition flex items-start justify-between gap-4 cursor-pointer bg-white hover:bg-primary-way-10"

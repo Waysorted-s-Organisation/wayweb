@@ -10,7 +10,6 @@ import Footer from "@/components/Footer";
 export default function SupportPage() {
   const { showBanner, setShowBanner } = useBanner();
 
-<<<<<<< HEAD
   // JSON-LD for FAQPage
   const faqSchema = {
     "@context": "https://schema.org",
@@ -102,36 +101,6 @@ export default function SupportPage() {
           } `}
       >
         <Header showBanner={showBanner} setShowBanner={setShowBanner} />
-=======
-                {/* Heading */}
-                <h1 className="text-5xl mt-4 font-semibold text-secondary-db-100">
-                    We&apos;re Here to Help
-                </h1>
-
-                {/* Contact Section */}
-                <div className="blue-bg-dots px-8 py-8 my-12 rounded-2xl md:min-w-6xl mx-auto flex flex-col md:flex-row text-white relative">
-                    {/* Left Section */}
-                    <div className="flex-1 mt-6">
-                        <h1 className="text-4xl text-left font-semibold mb-3">
-                            Contact Us
-                        </h1>
-                        <p className="text-white font-normal text-left text-base leading-relaxed mb-8 max-w-sm">
-                            Whether you have questions, need support, or just want to say hello,
-                            we&apos;re here to help!
-                        </p>
-                        <div className="text-left mt-90">
-                            <p className="text-left font-normal text-base">
-                                Support Mail
-                            </p>
-                            <a
-                                href="mailto:info@wayosrted.com"
-                                className="text-white font-normal underline text-base"
-                            >
-                                Info@wayosrted.com
-                            </a>
-                        </div>
-                    </div>
->>>>>>> wayweb/main
 
         {/* Support Section */}
         <section className="w-full bg-white flex flex-col items-center justify-center text-center py-10 md:py-16 px-4">

@@ -15,21 +15,14 @@ export default function Loading() {
   ];
 
   return (
-<<<<<<< HEAD
     <div className="min-h-screen w-full flex items-center justify-center select-none">
-=======
-    <div className="min-h-screen w-full flex items-center justify-center">
->>>>>>> wayweb/main
       <SequentialLogoLoader
         icons={icons}
         estimatedMs={4000}
         tileSizePx={188}  // tile is exactly 188x188 px
         iconPx={96}       // tweak to taste (about ~50% of tile)
-<<<<<<< HEAD
         mobileTileSizePx={140} // Smaller tiles for mobile
         mobileIconPx={72}  
-=======
->>>>>>> wayweb/main
       />
     </div>
   );

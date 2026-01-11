@@ -1,11 +1,6 @@
 'use client'
 
-<<<<<<< HEAD
 import React, { useEffect, useState } from 'react'
-=======
-import React from 'react'
-import { use } from 'react'
->>>>>>> wayweb/main
 import Image from 'next/image'
 import { useParams, useRouter } from 'next/navigation'
 import { useBanner } from '@/context/BannerContext'
@@ -13,30 +8,17 @@ import Header from '@/components/Header'
 import ToolBriefCarousel from './components/ToolBriefCarousel'
 import JoinCommunity from '@/components/JoinCommunity'
 import ExploreMore from './components/ExploreMore'
-<<<<<<< HEAD
 import Footer from '@/components/Footer'
 import type { ITool, ISlide } from '@/models/tool'
 
 export default function LearnMorePage() {
-=======
-import Footer from "@/components/Footer";
-import type { Tool } from '@/app/learning/types'
-
-// NOTE: params is not a Promise in Next.js app router pages.
-export default function LearnMorePage({ params }: { params: Promise<{ toolName: string }> }) {
->>>>>>> wayweb/main
   const { showBanner, setShowBanner } = useBanner()
   const router = useRouter()
   const params = useParams()
 
-<<<<<<< HEAD
   // normalize toolName (handle potential string[] from dynamic/catch-all routes)
   const rawToolName = params?.toolName
   const toolName = Array.isArray(rawToolName) ? rawToolName[0] ?? '' : rawToolName ?? ''
-=======
-  const { toolName } = use(params);
-  const tool = ToolsData.find((t) => t.slug === toolName)
->>>>>>> wayweb/main
 
   const [tool, setTool] = useState<ITool | null>(null)
   const [slides, setSlides] = useState<ISlide[]>([])
@@ -101,7 +83,6 @@ export default function LearnMorePage({ params }: { params: Promise<{ toolName: 
     return null
   }
 
-<<<<<<< HEAD
 =======
   const slides: SlideWithoutToolName[] = (allSlides as SlideData[])
     .filter((s: SlideData) => s.toolName === toolName)
@@ -180,9 +161,6 @@ export default function LearnMorePage({ params }: { params: Promise<{ toolName: 
 <<<<<<< HEAD
 
         <ExploreMore tools={allTools} />
-=======
-        <ExploreMore tools={ToolsData as Tool[]} />
->>>>>>> wayweb/main
         <JoinCommunity />
       </main>
       <Footer />

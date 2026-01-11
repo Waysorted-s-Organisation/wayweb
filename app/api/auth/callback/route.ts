@@ -126,11 +126,7 @@ export async function GET(request: Request) {
     });
 
     return response;
-<<<<<<< HEAD
   } catch (err: unknown) {
-=======
-    } catch (err: unknown) {
->>>>>>> wayweb/main
     if (axios.isAxiosError(err) && err.response) {
       console.error("OAuth callback error:", err.response.data);
     } else {

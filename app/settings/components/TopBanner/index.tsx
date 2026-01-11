@@ -11,11 +11,7 @@ export default function TopBanner({ earlyAccess }: TopBannerProps) {
   return (
     <div className="top-banner">
       {!earlyAccess && (
-<<<<<<< HEAD
         <div className="mx-auto flex max-w-screen items-start sm:items-center justify-between gap-4 px-4 py-3 sm:px-6 bg-primary-way-10 flex-col sm:flex-row">
-=======
-        <div className="mx-auto flex max-w-screen items-center justify-between gap-4 px-4 py-3 sm:px-6 bg-primary-way-10">
->>>>>>> wayweb/main
           <div className="flex items-center gap-3">
               <span
                   aria-hidden="true"

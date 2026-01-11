@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 "use client";
 
 import { useMemo, useRef } from "react";
@@ -27,9 +26,6 @@ function mulberry32(seed: number) {
 function lerp(a: number, b: number, t: number) {
   return a + (b - a) * t;
 }
-=======
-// "use client";
->>>>>>> wayweb/main
 
 // import { useRef, useLayoutEffect } from "react";
 // import { cn } from "@/lib/cn";
@@ -218,7 +214,6 @@ interface AnimatedCardProps {
   title: string;
   description: string;
   className?: string;
-<<<<<<< HEAD
   direction?: 1 | -1;
   translateMax?: number;
   rotateMax?: number;
@@ -226,15 +221,6 @@ interface AnimatedCardProps {
 }
 
 // Responsive Animated Card
-=======
-  direction?: 1 | -1; // 1 or -1 to alternate rotation direction
-  // Baseline ranges (will be varied per-card)
-  translateMax?: number; // base max px
-  rotateMax?: number;    // base max deg
-  baseTiltMax?: number;  // base tilt max deg
-}
- 
->>>>>>> wayweb/main
 function AnimatedCard({
   number,
   title,
@@ -247,33 +233,17 @@ function AnimatedCard({
 }: AnimatedCardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
-<<<<<<< HEAD
-
   // Per-card stable randomness based on content
   const rng = useMemo(() => mulberry32(hashString(String(number) + "|" + title)), [number, title]);
 
   // Per-card variation factors
   const tFactor = useMemo(() => lerp(0.65, 1.35, rng()), [rng]);
   const rFactor = useMemo(() => lerp(0.6, 1.6, rng()), [rng]);
-=======
- 
-  // Per-card stable randomness based on content
-  const rng = useMemo(() => mulberry32(hashString(String(number) + "|" + title)), [number, title]);
- 
-  // Per-card variation factors
-  // Translate variation: 0.65x .. 1.35x
-  const tFactor = useMemo(() => lerp(0.65, 1.35, rng()), [rng]);
-  // Rotate variation: 0.6x .. 1.6x
-  const rFactor = useMemo(() => lerp(0.6, 1.6, rng()), [rng]);
-  // Base tilt magnitude: 0.5 .. baseTiltMax, random sign
->>>>>>> wayweb/main
   const baseTilt = useMemo(() => {
     const mag = lerp(0.5, baseTiltMax, rng());
     const sign = rng() < 0.5 ? -1 : 1;
     return mag * sign;
   }, [rng, baseTiltMax]);
-<<<<<<< HEAD
-
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
@@ -293,40 +263,11 @@ function AnimatedCard({
 
   // Responsive: For <md, make card full width & text smaller, padding tighter, number badge smaller
   // Tailwind: use 'md:' for md+; default for mobile
-=======
- 
-  // Scroll progress for this card relative to viewport
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"], // 0 = when top hits bottom of viewport, 1 = bottom hits top
-  });
- 
-  // Normalize around center: 0.5 -> 0, edges -> ±1
-  const norm = useTransform(scrollYProgress, [0, 0.5, 1], [1, 0, -1]);
- 
-  // Apply per-card translate variation
-  const translateY = useTransform(norm, [-1, 1], [-translateMax * tFactor, translateMax * tFactor]);
- 
-  // Apply per-card rotate variation and alternating direction
-  const tiltFromScroll = useTransform(norm, (v) => v * rotateMax * rFactor * direction);
-  const rotate = useTransform(tiltFromScroll, (v) => v + baseTilt);
- 
-  // Spring smoothing
-  const smoothY = useSpring(translateY, { stiffness: 120, damping: 20, mass: 0.25 });
-  const smoothRotate = useSpring(rotate, { stiffness: 120, damping: 20, mass: 0.25 });
- 
-  // Reduced motion: static base tilt, no scroll-driven motion
-  const motionStyle = reduceMotion
-    ? { rotate: baseTilt, y: 0 }
-    : { rotate: smoothRotate, y: smoothY };
- 
->>>>>>> wayweb/main
   return (
     <div className="py-2">
       <motion.div
         ref={ref}
         style={motionStyle}
-<<<<<<< HEAD
         className={`
           relative overflow-hidden rounded-2xl bg-tertiary-orange-500
           p-4 text-white w-full max-w-full transform-gpu will-change-transform
@@ -345,25 +286,12 @@ function AnimatedCard({
           <div className="flex-1 space-y-2 md:space-y-3">
             <h3 className="text-lg md:text-2xl font-semibold leading-tight">{title}</h3>
             <p className="text-white text-xs md:text-sm font-semibold leading-relaxed">{description}</p>
-=======
-        className={`relative overflow-hidden rounded-2xl bg-tertiary-orange-500 p-8 text-white w-xl transform-gpu will-change-transform ${className}`}
-      >
-        <div className="relative z-10 flex items-start gap-6">
-          <div className="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-xl hover:border-2 hover:border-white/30 bg-white/10 backdrop-blur-sm">
-            <span className="text-2xl font-semibold">{number}</span>
-          </div>
-          <div className="flex-1 space-y-3">
-            <h3 className="text-2xl font-semibold leading-tight">{title}</h3>
-            <p className="text-white text-xl font-medium leading-relaxed">{description}</p>
->>>>>>> wayweb/main
           </div>
         </div>
       </motion.div>
     </div>
   );
 }
-<<<<<<< HEAD
-
 =======
  
 >>>>>>> wayweb/main
@@ -376,23 +304,13 @@ export default function ValuesSection() {
       description:
         "We’re building a workspace where every worker isn’t just an asset but a vital contributor to our shared vision. At Waysorted, we foster an environment that values collaboration and supports the common goal of turning digital chaos into creative clarity.",
       translate: 120
-=======
-      title: "Crafting a Morally Friendly Workspace",
-      description:
-        "We’re building a workspace where every worker isn’t just an asset but a vital contributor to our shared vision. At Waysorted, we foster an environment that values collaboration and supports the common goal of turning digital chaos into creative clarity.",
-    translate: 120
->>>>>>> wayweb/main
     },
     {
       number: "02",
       title: "A Legacy of Contributors",
       description:
         "Our customers, employees, and community are our stakeholders, our partners in progress. We weave their insights into every decision, ensuring Waysorted remains a hub that solves the mysteries of workflow inefficiency, one step at a time.",
-<<<<<<< HEAD
       translate: 80
-=======
-    translate: 80
->>>>>>> wayweb/main
     },
     {
       number: "03",
@@ -404,43 +322,24 @@ export default function ValuesSection() {
       number: "04",
       title: "Diversity of Thoughts",
       description:
-<<<<<<< HEAD
         "At Waysorted, we foster a diverse and inclusive creative environment that embraces multiple ideas, perspectives, and design approaches. Our innovative design tools and solutions empower creators, designers, and teams across the community to unlock their full potential.",
-=======
-        "We thrive on a vibrant, eclectic brainspace that celebrates variety. At Waysorted, we embrace diverse ideas, perspectives, and approaches, crafting designs and tools that serve not just one, but many—unlocking innovation for every creator in our community.",
->>>>>>> wayweb/main
     },
   ];
  
   return (
-<<<<<<< HEAD
     <section className="tertiary-orange-500-bg-dots px-4 md:px-20 lg:px-32 py-8 md:py-12 orange-cursor hover:orange-cursor">
       <h2 className="text-5xl md:text-8xl font-semibold text-center mb-8 md:mb-12 text-tertiary-orange-500">
         Our Values
       </h2>
 
       <div className="max-w-full md:max-w-2xl mx-auto">
-=======
-    <section className="tertiary-orange-500-bg-dots px-6 md:px-20 lg:px-32 py-12 orange-cursor hover:orange-cursor">
-      <h2 className="text-8xl font-semibold text-center mb-12 text-tertiary-orange-500">
-        Our Values
-      </h2>
- 
-      <div className="max-w-xl mx-auto">
->>>>>>> wayweb/main
         {values.map((value, index) => (
           <AnimatedCard
             key={index}
             number={value.number}
             title={value.title}
             description={value.description}
-<<<<<<< HEAD
             direction={index % 2 === 0 ? 1 : -1}
-=======
-            // Alternate rotation direction
-            direction={index % 2 === 0 ? 1 : -1}
-            // You can also tweak baseline ranges here if you want
->>>>>>> wayweb/main
             translateMax={120}
             rotateMax={10}
             baseTiltMax={4}
@@ -449,9 +348,4 @@ export default function ValuesSection() {
       </div>
     </section>
   );
-<<<<<<< HEAD
 }
-=======
-}
- 
->>>>>>> wayweb/main

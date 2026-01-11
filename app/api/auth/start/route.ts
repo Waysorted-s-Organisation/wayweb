@@ -36,13 +36,9 @@ export async function GET(request: Request) {
     return NextResponse.json({ sessionId, authUrl });
   } catch (error: unknown) {
     console.error("Error in /api/auth/start:", error);
-<<<<<<< HEAD
     return NextResponse.json(
       { error: (error as Error).message || "start_failed" },
       { status: 500 }
     );
-=======
-    return NextResponse.json({ error: (error as Error).message || "start_failed" }, { status: 500 });
->>>>>>> wayweb/main
   }
 }
